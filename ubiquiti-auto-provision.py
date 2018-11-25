@@ -13,7 +13,7 @@ import os
 import sys
 import telnetlib
 
-# Variables and functions
+# Variables
 pinging = True
 router = "192.168.1.1"
 switch = "192.168.1.2"
@@ -21,42 +21,50 @@ router_ping = os.system("ping -c 1 " + router)
 switch_ping = os.system("ping -c 1 " + switch)
 creds = "ubnt"
 switch_tftp = "copy tftp://192.168.1.199/ES-eswh.v1.7.4.5075842.stk backup\n"
+tn = telnetlib.Telnet(switch)
 
+# Router functions
 def provision_router():
     print('Under Construction')
+    pinging = False
 
-def provision_switch():
-    tn = telnetlib.Telnet(switch)
-
-    # Log into the switch
+# Switch functions
+def switch_login():
     tn.read_until("User: ")
     tn.write(creds + "\n")
     tn.read_until("Password: ")
     tn.write(creds + "\n")
 
-    # Firmware check
+def switch_firmware_check():
     tn.write("enable\n")
     tn.write(creds + "\n")
     tn.write("show bootvar\n")
+
+def switch_config():
+    print('Under Construction')
+
+def update_switch_firmware():
+    tn.write(switch_tftp)
+    tn.read_until("(y/n)")
+    tn.write("y\n")
+    tn.read_until("File transfer operation completed sucessfully")
+
+def switch_set_active_reboot():
+    tn.write("boot system backup\n")
+    tn.write("reload\n")
+
+def provision_switch():
+    switch_login()
+    switch_firmware_check()
     if "*1.7.4.5075842":
-
-        # Write config
-        tn.write("baseconfig")
+        switch_config()
     else:
+        update_switch_firmware()
+        switch_set_active_reboot()
 
-        # Update firmware
-        tn.write(switch_tftp)
-        tn.read_until("(y/n)")
-        tn.write("y\n")
-        tn.read_until("File transfer operation completed sucessfully")
-
-        # Set new firmware as next active and reboot
-        tn.write("boot system backup\n")
-        tn.write("reload\n")
-
-# Provisioning script
+# Ping check
 while pinging:
     if router_ping == 0:
         provision_router()
-    else switch_ping == 0:
+    elif switch_ping == 0:
         provision_switch()
