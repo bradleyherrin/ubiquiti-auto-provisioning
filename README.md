@@ -3,6 +3,7 @@
 ---
 
 ![alt text](https://bradleyherrin.me/images/BH_Logo_black_small.png "bradleyherrin logo")
+
 This project is authored by Bradley Herrin
 
 ---
