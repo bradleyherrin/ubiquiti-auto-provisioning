@@ -2,8 +2,9 @@
 
 ---
 
-![alt text](https://bradleyherrin.me/images/BH_Logo_black_small.png "bradleyherrin logo")
-
+<p align="center">
+  <img src="https://bradleyherrin.me/images/BH_Logo_black_small.png" />
+</p>
 This project is authored by Bradley Herrin
 
 ---
@@ -13,10 +14,10 @@ This goal of this project is to use Python to auto-provision EdgeRouters and Edg
 
 1. Plug up new EdgeMax device into the auto-provisioning network that consists of a Linux PC and a switch.
 2. The Linux box will then provision the device with things that have been determined to be required for all installations.
-  * Examples include UNMS keys, an admin user account, deletion of the default ubnt/ubnt account, etc
+    * Examples include UNMS keys, an admin user account, deletion of the default ubnt/ubnt account, etc
 3. Remove the device from the auto-provisioning network. From here you have two options:
-  * Rebox the equipment and stage it for pickup by the installer and perform final configuration remotely. The caveat here is that you need to make sure you have remote access. In the case of EdgeRouters, UNMS will be the backdoor to finish up remotely. In the case of EdgeSwitches, either make sure you have Layer 2 access or install an ER-X along side the switch for remote configuration. The ER-X can be left or picked up at a later date.
-  * Stage the equipment to someone to do final configuration. This is helpful when discovery is done ahead of time by you or the customer and you know all the customer-exclusive information that needs to be added like IPs, VLANS, port assignments, etc.
+    * Rebox the equipment and stage it for pickup by the installer and perform final configuration remotely. The caveat here is that you need to make sure you have remote access. In the case of EdgeRouters, UNMS will be the backdoor to finish up remotely. In the case of EdgeSwitches, either make sure you have Layer 2 access or install an ER-X along side the switch for remote configuration. The ER-X can be left or picked up at a later date.
+    * Stage the equipment to someone to do final configuration. This is helpful when discovery is done ahead of time by you or the customer and you know all the customer-exclusive information that needs to be added like IPs, VLANS, port assignments, etc.
 
 ## Technical Stuff
 
