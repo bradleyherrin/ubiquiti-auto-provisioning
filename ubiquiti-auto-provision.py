@@ -3,7 +3,7 @@
 # ubiquiti-auto-provision.py
 # This project is authored by Bradley Herrin & covered under the GPL-3.0 license.
 # The goal of this project is to use Python to auto-provision Ubiquiti EdgeRouters and EdgeSwitches.
-# View the full project on GitHub - https://github.com/bradleyherrin/ubiquiti-auto-provisioning '''
+# View the full project on GitHub - https://github.com/bradleyherrin/ubiquiti-auto-provisioning
 
 import os
 import sys
@@ -15,8 +15,9 @@ SWITCH = "192.168.1.2"
 ROUTERPING = os.system("ping -c 1 " + ROUTER)
 SWITCHPING = os.system("ping -c 1 " + SWITCH)
 CREDS = "ubnt"
+SWITCHTFTP = "copy tftp://192.168.1.199/ES-eswh.v1.7.4.5075842.stk backup\n"
 
-# Response check
+# Ping check
 print ("Searching for devices...")
 while PINGING:
     if ROUTERPING == 0:
@@ -45,7 +46,7 @@ while PINGING:
         else:
             # Update firmware
             print ("Upgrading Firmware...")
-            tn.write("copy tftp://192.168.1.199/ES-eswh.v1.7.4.5075842.stk backup\n")
+            tn.write(SWITCHTFTP)
             tn.read_until("(y/n)")
             tn.write("y\n")
             tn.read_until("File transfer operation completed sucessfully")
