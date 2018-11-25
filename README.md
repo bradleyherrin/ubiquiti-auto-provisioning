@@ -27,7 +27,7 @@ EdgeMax devices have the following default IPs.
 * EdgeRouters - 192.168.1.1/24
 * EdgeSwitches - 192.168.1.2/24
 
-This means the LInux PC will need to be configured with a static IP on the same subnet.
+This means the Linux PC will need to be configured with a static IP on the same subnet.
 
 After determining device type through ping, the Linux PC will then access the device through either SSH (EdgeRouters) or Telnet (EdgeSwitches) and a firmware check will be performed. If a certain version isn't detected The firmware will be updated via a TFTP server running on the same Linux PC. Once the result of the firmware check is equal to the required version, the base configuration will be pushed to the device.
 
