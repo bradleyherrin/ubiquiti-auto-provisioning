@@ -13,10 +13,9 @@
 This goal of this project is to use Python to auto-provision EdgeRouters and EdgeSwitches. In this case, auto-provisioning includes updating the firmware followed by pushing a base configuration. As of right now the idea is for the workflow to be as follows:
 
 1. Plug up new EdgeMax device into the auto-provisioning network that consists of a Linux PC and a switch.
-2. The Linux box will then provision the device with things that have been determined to be required for all installations.
-    * Examples include UNMS keys, an admin user account, deletion of the default ubnt/ubnt account, etc
+2. The Linux PC will then provision the device. This saves time by eliminating the need for manually updating firmware and manually configuring repetitive things that are required for every install.
 3. Remove the device from the auto-provisioning network. From here you have two options:
-    * Rebox the equipment and stage it for pickup by the installer and perform final configuration remotely. The caveat here is that you need to make sure you have remote access. In the case of EdgeRouters, UNMS will be the backdoor to finish up remotely. In the case of EdgeSwitches, either make sure you have Layer 2 access or install an ER-X along side the switch for remote configuration. The ER-X can be left or picked up at a later date.
+    * Rebox the equipment and stage it for pickup by the installer and perform final configuration remotely. The caveat here is that you need to make sure you have remote access. In the case of EdgeRouters, UNMS will be the backdoor to finish up remotely. In the case of EdgeSwitches, either make sure you have Layer 2 access or install an ER-X alongside the switch for remote configuration. The ER-X can be left or picked up at a later date.
     * Stage the equipment to someone to do final configuration. This is helpful when discovery is done ahead of time by you or the customer and you know all the customer-exclusive information that needs to be added like IPs, VLANS, port assignments, etc.
 
 ## Technical Stuff
