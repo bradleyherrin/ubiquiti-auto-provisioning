@@ -13,13 +13,17 @@ import os
 import sys
 import telnetlib
 
-# Variables
+# Universal variables
 pinging = True
-router = "192.168.1.1"
-switch = "192.168.1.2"
-router_ping = os.system("ping -c 1 " + router)
-switch_ping = os.system("ping -c 1 " + switch)
 creds = "ubnt"
+
+# Router variables
+router = "192.168.1.1"
+router_ping = os.system("ping -c 1 " + router)
+
+# Switch variables
+switch = "192.168.1.2"
+switch_ping = os.system("ping -c 1 " + switch)
 switch_tftp = "copy tftp://192.168.1.199/ES-eswh.v1.7.4.5075842.stk backup\n"
 tn = telnetlib.Telnet(switch)
 
