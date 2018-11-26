@@ -1,4 +1,4 @@
-# ubiquiti-auto-provisioning
+# Ubiquiti EdgeMax Auto-Provisioning
 
 ---
 
