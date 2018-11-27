@@ -19,7 +19,7 @@ creds = "ubnt"
 
 # Router variables
 router = "192.168.1.1"
-
+router_tftp = "add system image tftp://192.168.1.199/firmware.tar "
 
 # Switch variables
 switch = "192.168.1.2"
@@ -34,8 +34,37 @@ def welcome_message():
         print("-------------------------------------\n".center(40))
 
 # Router functions
+def router_login():
+    print("Under Construction")
+
+def router_firmware_check():
+    ssh.write("show system image\n")
+
+def router_config():
+    print("Under Construction")
+
+def update_router_firmware():
+    ssh.write(router_tftp)
+
+def router_set_active():
+    ssh.write("set system image default-boot\n")
+
+def reboot():
+    ssh.write("reboot\n")
+
 def provision_router():
-    print('Under Construction')
+    router_login()
+    router_firmware_check()
+    if "v1.10.7.5127989.181001.1227    (running image) (default boot)":
+        router_config()
+    elif "v1.10.7.5127989.181001.1227    (default boot)":
+        router_reboot()
+    elif if "v1.10.7.5127989.181001.1227                                  ":
+        router_set_active()
+        router_reboot()
+    else:
+        update_router_firmware()
+        router_reboot()
 
 # Switch functions
 def switch_login():
@@ -65,13 +94,15 @@ def switch_set_active_reboot():
 def provision_switch():
     switch_login()
     switch_firmware_check()
-    if "*1.7.4.5075842":
+    if "active  *1.7.4.5075842":
         switch_config()
+    elif "backup  *1.7.4.5075842":
+        switch_set_active_reboot()
     else:
         update_switch_firmware()
         switch_set_active_reboot()
 
-# The actual Application
+# The actual application
 welcome_message()
 
 # Ping check
@@ -79,12 +110,10 @@ while pinging:
     if os.system(ping + router) == 0:
         # Provision router
         provision_router()
-        break
     elif os.system(ping + switch) == 0:
         tn = telnetlib.Telnet(switch)
         # Provision switch
         provision_switch()
-        break
     else:
         # No devices found
         print('No devices found.')
