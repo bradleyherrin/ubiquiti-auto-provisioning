@@ -111,15 +111,15 @@ welcome_message()
 while pinging:
     if os.system(ping + router + ping_match) == 5:
         # Provision router
-        break
         print("Under Construction")
+        break
     elif os.system(ping + switch + ping_match) == 5:
         tn = telnetlib.Telnet(switch)
         # Provision switch
         provision_switch()
-        break
         print("The switch has been configured!")
+        break
     else:
         # No devices found
-        break
         print('No devices found.')
+        break
