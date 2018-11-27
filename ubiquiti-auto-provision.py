@@ -8,29 +8,34 @@
 # View the full project on GitHub
 # https://github.com/bradleyherrin/ubiquiti-auto-provisioning
 
-# Lib import
-import os
-import sys
-import telnetlib
+# Imports
+import os, sys,telnetlib
+
 
 # Universal variables
 pinging = True
+ping = "ping -c 1 "
 creds = "ubnt"
 
 # Router variables
 router = "192.168.1.1"
-router_ping = os.system("ping -c 1 " + router)
+
 
 # Switch variables
 switch = "192.168.1.2"
-switch_ping = os.system("ping -c 1 " + switch)
 switch_tftp = "copy tftp://192.168.1.199/ES-eswh.v1.7.4.5075842.stk backup\n"
-tn = telnetlib.Telnet(switch)
+
+# Universal functions
+def welcome_message():
+        print("-------------------------------------\n".center(40))
+        print("Welcome to the Ubiquiti EdgeMax\n".center(40))
+        print("Auto-Provisioning Application\n".center(40))
+        print("by Bradley Herrin\n".center(40))
+        print("-------------------------------------\n".center(40))
 
 # Router functions
 def provision_router():
     print('Under Construction')
-    pinging = False
 
 # Switch functions
 def switch_login():
@@ -66,9 +71,21 @@ def provision_switch():
         update_switch_firmware()
         switch_set_active_reboot()
 
+# The actual Application
+welcome_message()
+
 # Ping check
 while pinging:
-    if router_ping == 0:
+    if os.system(ping + router) == 0:
+        # Provision router
         provision_router()
-    elif switch_ping == 0:
+        break
+    elif os.system(ping + switch) == 0:
+        tn = telnetlib.Telnet(switch)
+        # Provision switch
         provision_switch()
+        break
+    else:
+        # No devices found
+        print('No devices found.')
+        break
