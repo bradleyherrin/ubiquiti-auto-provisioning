@@ -49,7 +49,7 @@ def update_router_firmware():
 def router_set_active():
     ssh.write("set system image default-boot\n")
 
-def reboot():
+def router_reboot():
     ssh.write("reboot\n")
 
 def provision_router():
