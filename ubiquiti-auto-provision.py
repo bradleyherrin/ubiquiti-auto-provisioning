@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # ubiquiti-auto-provision.py
 # This project is authored by Bradley Herrin.
@@ -9,12 +9,13 @@
 # https://github.com/bradleyherrin/ubiquiti-auto-provisioning
 
 # Imports
-import os3,sys,telnetlib3
+import os,sys,telnetlib
 
 
 # Universal variables
 pinging = True
 ping = "ping -c 5 "
+ping_match = " | grep -c 'bytes from' | grep 5"
 creds = "ubnt"
 linux_pc = "192.168.1.199"
 
@@ -69,28 +70,28 @@ def provision_router():
 
 # Switch functions
 def switch_login():
-    tn.read_until("User: ")
-    tn.write(creds + "\n")
-    tn.read_until("Password: ")
-    tn.write(creds + "\n")
+    tn.read_until(b"User: ")
+    tn.write(creds.encode("utf-8") + b"\n")
+    tn.read_until(b"Password: ")
+    tn.write(creds.encode("utf-8") + b"\n")
 
 def switch_firmware_check():
-    tn.write("enable\n")
-    tn.write(creds + "\n")
-    tn.write("show bootvar\n")
+    tn.write(b"enable\n")
+    tn.write(creds.encode("utf-8") + b"\n")
+    tn.write(b"show bootvar\n")
 
 def switch_config():
     print('Under Construction')
 
 def update_switch_firmware():
-    tn.write(switch_tftp)
-    tn.read_until("(y/n)")
-    tn.write("y\n")
-    tn.read_until("File transfer operation completed sucessfully")
+    tn.write(switch_tftp.encode("utf-8"))
+    tn.read_until(b"(y/n)")
+    tn.write(b"y\n")
+    tn.read_until(b"File transfer operation completed sucessfully")
 
 def switch_set_active_reboot():
-    tn.write("boot system backup\n")
-    tn.write("reload\n")
+    tn.write(b"boot system backup\n")
+    tn.write(b"reload\n")
 
 def provision_switch():
     switch_login()
@@ -108,10 +109,10 @@ welcome_message()
 
 # Ping check
 while pinging:
-    if os.system(ping + router) == 5:
+    if os.system(ping + router + ping_match) == 0:
         # Provision router
         provision_router()
-    elif os.system(ping + switch) == 5:
+    elif os.system(ping + switch + ping_match) == 0:
         tn = telnetlib.Telnet(switch)
         # Provision switch
         provision_switch()
