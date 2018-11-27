@@ -109,11 +109,11 @@ welcome_message()
 
 # Ping check
 while pinging:
-    if os.system(ping + router + ping_match) == 0:
+    if os.system(ping + router + ping_match) == 5:
         # Provision router
         break
         print("Under Construction")
-    elif os.system(ping + switch + ping_match) == 0:
+    elif os.system(ping + switch + ping_match) == 5:
         tn = telnetlib.Telnet(switch)
         # Provision switch
         provision_switch()
