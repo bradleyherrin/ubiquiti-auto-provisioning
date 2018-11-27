@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # welcome-message-input-begin.py
 # This project is authored by Bradley Herrin.
