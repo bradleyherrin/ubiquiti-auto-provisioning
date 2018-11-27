@@ -59,7 +59,7 @@ def provision_router():
         router_config()
     elif "v1.10.7.5127989.181001.1227    (default boot)":
         router_reboot()
-    elif if "v1.10.7.5127989.181001.1227                                  ":
+    elif "v1.10.7.5127989.181001.1227                                  ":
         router_set_active()
         router_reboot()
     else:
