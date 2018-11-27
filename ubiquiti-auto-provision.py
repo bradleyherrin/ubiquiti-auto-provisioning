@@ -9,12 +9,12 @@
 # https://github.com/bradleyherrin/ubiquiti-auto-provisioning
 
 # Imports
-import os, sys,telnetlib
+import os,sys,telnetlib3
 
 
 # Universal variables
 pinging = True
-ping = "ping -n 5 "
+ping = "ping -c 5 "
 creds = "ubnt"
 linux_pc = "192.168.1.199"
 
