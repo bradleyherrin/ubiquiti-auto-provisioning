@@ -37,13 +37,13 @@ def welcome_message():
 
 # Router functions
 def router_login():
-    print("Under Construction")
+    print("Router Login Under Construction")
 
 def router_firmware_check():
     ssh.write("show system image\n")
 
 def router_config():
-    print("Under Construction")
+    print("Router Config Under Construction")
 
 def update_router_firmware():
     ssh.write(router_tftp)
@@ -81,7 +81,7 @@ def switch_firmware_check():
     tn.write(b"show bootvar\n")
 
 def switch_config():
-    print('Under Construction')
+    print('Switch Config Under Construction')
 
 def update_switch_firmware():
     tn.write(switch_tftp.encode("utf-8"))
@@ -111,7 +111,7 @@ welcome_message()
 while pinging:
     if os.system(ping + router + ping_match) == 5:
         # Provision router
-        print("Under Construction")
+        print("Provision Router Under Construction")
         break
     elif os.system(ping + switch + ping_match) == 5:
         tn = telnetlib.Telnet(switch)
