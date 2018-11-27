@@ -9,7 +9,7 @@
 # https://github.com/bradleyherrin/ubiquiti-auto-provisioning
 
 # Imports
-import os,sys,telnetlib3
+import os3,sys,telnetlib3
 
 
 # Universal variables
