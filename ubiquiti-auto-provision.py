@@ -14,8 +14,9 @@ import os, sys,telnetlib
 
 # Universal variables
 pinging = True
-ping = "ping -c 1 "
+ping = "ping -n 5 "
 creds = "ubnt"
+linux_pc = "192.168.1.199"
 
 # Router variables
 router = "192.168.1.1"
@@ -107,10 +108,10 @@ welcome_message()
 
 # Ping check
 while pinging:
-    if os.system(ping + router) == 0:
+    if os.system(ping + router) == 5:
         # Provision router
         provision_router()
-    elif os.system(ping + switch) == 0:
+    elif os.system(ping + switch) == 5:
         tn = telnetlib.Telnet(switch)
         # Provision switch
         provision_switch()
