@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 # ubiquiti-auto-provision.py
-# This project is authored by Bradley Herrin with help from Josh Moore.
+# This project is authored by Bradley Herrin and Josh Moore.
 # It is covered under the GPL-3.0 license.
 # The goal of this project is to use Python to
 # auto-provision Ubiquiti EdgeRouters and EdgeSwitches.
