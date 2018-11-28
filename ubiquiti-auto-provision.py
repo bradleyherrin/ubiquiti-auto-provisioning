@@ -9,7 +9,7 @@
 # https://github.com/bradleyherrin/ubiquiti-auto-provisioning
 
 # Imports
-import subprocess,sys,telnetlib
+import subprocess,sys,pexpect
 
 
 # Universal variables
@@ -69,37 +69,35 @@ def provision_router():
         router_reboot()
 
 # Switch functions
-def switch_login():
-    tn.read_until(b"User:")
-    tn.write(creds.encode("utf-8") + b"\n")
-    tn.read_until(b"Password:")
-    tn.write(creds.encode("utf-8") + b"\n")
-
 def switch_firmware_check():
-    tn.write(b"enable\n")
-    tn.write(creds.encode("utf-8") + b"\n")
-    tn.write(b"show bootvar\n")
-    bootvar = tn.write(b"show bootvar\n")
+    tn = pexpect.spawn("telnet " + switch)
+    tn.expect("User:")
+    tn.sendline(creds)
+    tn.expect("Password:")
+    tn.sendline(creds)
+    tn.sendline("enable")
+    tn.sendline(creds)
+    tn.sendline("show bootvar")
 
 def switch_config():
     print('Switch Config Under Construction')
 
 def update_switch_firmware():
-    tn.write(switch_tftp.encode("utf-8"))
-    tn.read_until(b"(y/n)")
-    tn.write(b"y\n")
-    tn.read_until(b"File transfer operation completed sucessfully")
+    tn.sendline(switch_tftp)
+    tn.expect("(y/n)")
+    tn.sendline("y")
+    tn.expect("File transfer operation completed sucessfully")
 
 def switch_set_active_reboot():
-    tn.write(b"boot system backup\n")
-    tn.write(b"reload\n")
+    tn.sendline("boot system backup")
+    tn.sendline("reload")
 
 def provision_switch():
     switch_login()
     switch_firmware_check()
-    if "active  *1.7.4.5075842" in bootvar:
+    if "active  *1.7.4.5075842" in tn.before:
         switch_config()
-    elif "backup  *1.7.4.5075842" in bootvar:
+    elif "backup  *1.7.4.5075842" in tn.before:
         switch_set_active_reboot()
     else:
         update_switch_firmware()
@@ -115,7 +113,6 @@ while pinging:
         print("Provision Router Under Construction")
         break
     elif subprocess.call(ping + switch + ping_match, shell=True) == 0:
-        tn = telnetlib.Telnet(switch)
         # Provision switch
         provision_switch()
         print("The switch has been configured!")
