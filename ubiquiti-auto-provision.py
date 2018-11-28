@@ -9,7 +9,7 @@
 # https://github.com/bradleyherrin/ubiquiti-auto-provisioning
 
 # Imports
-import subprocess,sys,pexpect
+import subprocess,pexpect,time
 
 
 # Universal variables
@@ -27,14 +27,7 @@ router_tftp = "add system image tftp://192.168.1.199/firmware.tar "
 switch = "192.168.1.2"
 switch_tftp = "copy tftp://192.168.1.199/ES-eswh.v1.7.4.5075842.stk backup\n"
 tn = pexpect.spawn("telnet " + switch)
-
-# Universal functions
-def welcome_message():
-        print("-------------------------------------\n".center(40))
-        print("Welcome to the Ubiquiti EdgeMax\n".center(40))
-        print("Auto-Provisioning Application\n".center(40))
-        print("by Bradley Herrin\n".center(40))
-        print("-------------------------------------\n".center(40))
+switch_output = tn.before
 
 # Router functions
 def router_login():
@@ -71,9 +64,9 @@ def provision_router():
 
 # Switch functions
 def switch_firmware_check():
-    tn.expect("User:")
+    tn.expect(":")
     tn.sendline(creds)
-    tn.expect("Password:")
+    tn.expect(":")
     tn.sendline(creds)
     tn.expect(">")
     tn.sendline("enable")
@@ -90,37 +83,74 @@ def update_switch_firmware():
     tn.sendline(switch_tftp)
     tn.expect("(y/n)")
     tn.sendline("y")
-    tn.expect("File transfer operation completed sucessfully")
+    time.sleep(300)
+    tn.expect("#")
 
 def switch_set_active_reboot():
     tn.sendline("boot system backup")
     tn.expect("#")
     tn.sendline("reload")
 
-def provision_switch():
-    switch_firmware_check()
-    if "active  *1.7.4.5075842" in tn.before:
-        switch_config()
-    elif "backup  *1.7.4.5075842" in tn.before:
-        switch_set_active_reboot()
-    else:
-        update_switch_firmware()
-        switch_set_active_reboot()
-
-# The actual application
-welcome_message()
+# Welcome message
+print("------------------------------------------".center(40))
+print("Welcome to the Ubiquiti EdgeMax and AirMax".center(40))
+print("Auto-Provisioning Application".center(40))
+print("by Bradley Herrin and Josh Moore".center(40))
+print("------------------------------------------".center(40))
 
 # Ping check
 while pinging:
     if subprocess.call(ping + router + ping_match, shell=True) == 0:
-        # Provision router
+        # Check router firmware
         print("Provision Router Under Construction")
         break
     elif subprocess.call(ping + switch + ping_match, shell=True) == 0:
-        # Provision switch
-        provision_switch()
-        print("The switch has been configured!")
-        break
+        # Check switch firmware
+        switch_firmware_check()
+            if "active  *1.7.4.5075842" in tn.before:
+                # User message
+                print("------------------".center(40))
+                print("Configuring Switch".center(40))
+                print("------------------".center(40))
+                # Configure switch
+                switch_config()
+                # User message
+                print("------------------------------".center(40))
+                print("Switch Configured Sucessfully!".center(40))
+                print("------------------------------".center(40))
+                # Break to end program
+                break
+            elif "backup  *1.7.4.5075842" in tn.before:
+                # User message
+                print("---------------------------------------".center(40))
+                print("Setting backup as active and rebooting.".center(40))
+                print("---------------------------------------".center(40))
+                # Set active and reboot
+                switch_set_active_reboot()
+                # This break is temporary. Eventually it
+                # will be replaced with a time.sleep(300)
+                break
+            else:
+                # User message
+                print("---------------------------".center(40))
+                print("Updating switch firmware...".center(40))
+                print("---------------------------\n".center(40))
+                # Update switch firmware()
+                update_switch_firmware()
+                if "sucessfully" in tn.before:
+                    print("File transfer operation completed sucessfully.\n")
+                else:
+                    print("File transfer failed. Please try again.")
+                    break
+                # User message
+                print("---------------------------------------".center(40))
+                print("Setting backup as active and rebooting.".center(40))
+                print("---------------------------------------".center(40))
+                # Set active and reboot
+                switch_set_active_reboot()
+                # This break is temporary. Eventually it
+                # will be replaced with a time.sleep(300)
+                break
     else:
         # No devices found
         print('No devices found.')
