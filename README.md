@@ -5,8 +5,7 @@
 <p align="center">
   <img src="https://bradleyherrin.me/images/BH_Logo_black_small.png" />
 </p>
-<p align="center"> This project is authored by Bradley Herrin </p>
-<p align="center"> with help from Josh Moore. </p>
+<p align="center"> This project is authored by Bradley Herrin and Josh Moore. </p>
 
 ---
 
