@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 # ubiquiti-auto-provision.py
 # This project is authored by Bradley Herrin with help from Josh Moore.
@@ -99,7 +99,6 @@ def switch_set_active_reboot():
 
 def provision_switch():
     switch_firmware_check()
-    print(tn.before)
     if "active  *1.7.4.5075842" in tn.before:
         switch_config()
     elif "backup  *1.7.4.5075842" in tn.before:
