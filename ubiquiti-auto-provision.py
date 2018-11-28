@@ -94,10 +94,10 @@ def update_switch_firmware():
 
 def switch_set_active_reboot():
     tn.sendline("boot system backup")
+    tn.expect("#")
     tn.sendline("reload")
 
 def provision_switch():
-    switch_login()
     switch_firmware_check()
     if "active  *1.7.4.5075842" in tn.before:
         switch_config()
