@@ -26,6 +26,7 @@ router_tftp = "add system image tftp://192.168.1.199/firmware.tar "
 # Switch variables
 switch = "192.168.1.2"
 switch_tftp = "copy tftp://192.168.1.199/ES-eswh.v1.7.4.5075842.stk backup\n"
+tn = pexpect.spawn("telnet " + switch)
 
 # Universal functions
 def welcome_message():
@@ -70,7 +71,6 @@ def provision_router():
 
 # Switch functions
 def switch_firmware_check():
-    tn = pexpect.spawn("telnet " + switch)
     tn.expect("User:")
     tn.sendline(creds)
     tn.expect("Password:")
