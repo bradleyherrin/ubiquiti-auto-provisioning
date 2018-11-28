@@ -9,7 +9,7 @@
 # https://github.com/bradleyherrin/ubiquiti-auto-provisioning
 
 # Imports
-import os,sys,telnetlib
+import subprocess,sys,telnetlib
 
 
 # Universal variables
@@ -70,15 +70,16 @@ def provision_router():
 
 # Switch functions
 def switch_login():
-    tn.read_until(b"User: ")
+    tn.read_until(b"User:")
     tn.write(creds.encode("utf-8") + b"\n")
-    tn.read_until(b"Password: ")
+    tn.read_until(b"Password:")
     tn.write(creds.encode("utf-8") + b"\n")
 
 def switch_firmware_check():
     tn.write(b"enable\n")
     tn.write(creds.encode("utf-8") + b"\n")
     tn.write(b"show bootvar\n")
+    bootvar = tn.write(b"show bootvar\n")
 
 def switch_config():
     print('Switch Config Under Construction')
@@ -96,9 +97,9 @@ def switch_set_active_reboot():
 def provision_switch():
     switch_login()
     switch_firmware_check()
-    if "active  *1.7.4.5075842":
+    if "active  *1.7.4.5075842" in bootvar:
         switch_config()
-    elif "backup  *1.7.4.5075842":
+    elif "backup  *1.7.4.5075842" in bootvar:
         switch_set_active_reboot()
     else:
         update_switch_firmware()
@@ -109,11 +110,11 @@ welcome_message()
 
 # Ping check
 while pinging:
-    if os.system(ping + router + ping_match) == 5:
+    if subprocess.call(ping + router + ping_match, shell=True) == 0:
         # Provision router
         print("Provision Router Under Construction")
         break
-    elif os.system(ping + switch + ping_match) == 5:
+    elif subprocess.call(ping + switch + ping_match, shell=True) == 0:
         tn = telnetlib.Telnet(switch)
         # Provision switch
         provision_switch()
