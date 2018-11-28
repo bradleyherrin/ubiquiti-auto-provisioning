@@ -75,9 +75,13 @@ def switch_firmware_check():
     tn.sendline(creds)
     tn.expect("Password:")
     tn.sendline(creds)
+    tn.expect(">")
     tn.sendline("enable")
+    tn.expect(":")
     tn.sendline(creds)
+    tn.expect("#")
     tn.sendline("show bootvar")
+    tn.expect("Current")
 
 def switch_config():
     print('Switch Config Under Construction')
