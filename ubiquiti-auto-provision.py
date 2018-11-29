@@ -113,57 +113,57 @@ while pinging:
         # Check switch firmware
         switch_login()
         switch_firmware_check()
-            if "active  *1.7.4.5075842" in tn.before:
+        if "active  *1.7.4.5075842" in tn.before:
+            # User message
+            print("------------------".center(18))
+            print("Configuring Switch".center(18))
+            print("------------------".center(18))
+            # Configure switch
+            switch_config.switch_config()
+            if switch_config.switch_config() == 26:
                 # User message
-                print("------------------".center(18))
-                print("Configuring Switch".center(18))
-                print("------------------".center(18))
-                # Configure switch
-                switch_config.switch_config()
-                if switch_config.switch_config() == 26:
-                    # User message
-                    print("--------------------------------------------------".center(50))
-                    print("Switch model not found. Switch was not configured.".center(50))
-                    print("--------------------------------------------------".center(50))
-                    break
-                else:
-                    # User message
-                    print("------------------------------".center(30))
-                    print("Switch Configured Sucessfully!".center(30))
-                    print("------------------------------".center(30))
-                    # Break to end program
-                    break
-            elif "backup  *1.7.4.5075842" in tn.before:
-                # User message
-                print("---------------------------------------".center(39))
-                print("Setting backup as active and rebooting.".center(39))
-                print("---------------------------------------".center(39))
-                # Set active and reboot
-                switch_set_active_reboot()
-                # This break is temporary. Eventually it
-                # will be replaced with a time.sleep(300)
+                print("--------------------------------------------------".center(50))
+                print("Switch model not found. Switch was not configured.".center(50))
+                print("--------------------------------------------------".center(50))
                 break
             else:
                 # User message
-                print("---------------------------".center(27))
-                print("Updating switch firmware...".center(27))
-                print("---------------------------\n".center(27))
-                # Update switch firmware()
-                update_switch_firmware()
-                if "sucessfully" in tn.before:
-                    print("File transfer operation completed sucessfully.\n")
-                else:
-                    print("File transfer failed. Please try again.")
-                    break
-                # User message
-                print("---------------------------------------".center(39))
-                print("Setting backup as active and rebooting.".center(39))
-                print("---------------------------------------".center(39))
-                # Set active and reboot
-                switch_set_active_reboot()
-                # This break is temporary. Eventually it
-                # will be replaced with a time.sleep(300)
+                print("------------------------------".center(30))
+                print("Switch Configured Sucessfully!".center(30))
+                print("------------------------------".center(30))
+                # Break to end program
                 break
+        elif "backup  *1.7.4.5075842" in tn.before:
+            # User message
+            print("---------------------------------------".center(39))
+            print("Setting backup as active and rebooting.".center(39))
+            print("---------------------------------------".center(39))
+            # Set active and reboot
+            switch_set_active_reboot()
+            # This break is temporary. Eventually it
+            # will be replaced with a time.sleep(300)
+            break
+        else:
+            # User message
+            print("---------------------------".center(27))
+            print("Updating switch firmware...".center(27))
+            print("---------------------------\n".center(27))
+            # Update switch firmware()
+            update_switch_firmware()
+            if "sucessfully" in tn.before:
+                print("File transfer operation completed sucessfully.\n")
+            else:
+                print("File transfer failed. Please try again.")
+                break
+            # User message
+            print("---------------------------------------".center(39))
+            print("Setting backup as active and rebooting.".center(39))
+            print("---------------------------------------".center(39))
+            # Set active and reboot
+            switch_set_active_reboot()
+            # This break is temporary. Eventually it
+            # will be replaced with a time.sleep(300)
+            break
     else:
         # No devices found
         print('No devices found.')
