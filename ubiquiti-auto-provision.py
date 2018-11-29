@@ -9,7 +9,7 @@
 # https://github.com/bradleyherrin/ubiquiti-auto-provisioning
 
 # Imports
-import pexpect,subprocess,time,switch_config
+import pexpect,subprocess,time,edgeswitch
 
 # Variables
 pinging = True
