@@ -28,7 +28,6 @@ new_pass = "CHANGE ME"
 priv = " level 15"
 unms_key = "YOUR KEY HERE"
 tn = pexpect.spawn("telnet " + switch)
-tn_new = pexpect.spawn("telnet " + switch)
 
 # Functions
 def switch_default_login():
