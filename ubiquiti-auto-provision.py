@@ -74,19 +74,21 @@ def switch_set_active_reboot():
     tn.sendline("boot system backup")
     tn.expect("#")
     tn.sendline("reload")
+    tn.expect("(y/n)")
+    tn.sendline("y")
 
 # Welcome message
 print("---------------------------------------------".center(45))
 print("Welcome to the Ubiquiti EdgeMax and AirMax".center(45))
 print("Auto-Provisioning Application".center(45))
 print("by Bradley Herrin and Josh Moore".center(45))
-print("----------------------------------------------".center(45))
+print("---------------------------------------------".center(45))
 
 # Ping check
 while pinging:
     if subprocess.call(ping + router + ping_match, shell=True) == 0:
         # Check router firmware
-        print("Provision Router Under Construction")
+        print("Provision Router Under Construction".center(45))
         break
     elif subprocess.call(ping + switch + ping_match, shell=True) == 0:
         # Check switch firmware
@@ -94,50 +96,50 @@ while pinging:
         switch_firmware_check()
         if "active  *1.7.4.5075842" in tn.before:
             # User message
-            print("------------------")
-            print("Configuring Switch")
-            print("------------------")
+            printprint("---------------------------------------------".center(45))
+            print("Configuring Switch".center(45))
+            printprint("---------------------------------------------".center(45))
             # Configure switch
             atc_switch_config.switch_config()
             if switch_config.switch_config() == 26:
                 # User message
-                print("--------------------------------------------------")
-                print("Switch model not found. Switch was not configured.")
-                print("--------------------------------------------------")
+                print("---------------------------------------------".center(45))
+                print("Switch model not found. Switch was not configured.").center(45)
+                print("---------------------------------------------".center(45))
                 break
             else:
                 # User message
-                print("------------------------------")
-                print("Switch Configured Sucessfully!")
-                print("------------------------------")
+                print("---------------------------------------------".center(45))
+                print("Switch Configured Sucessfully!".center(45))
+                print("---------------------------------------------".center(45))
                 # Break to end program
                 break
         elif "backup   1.7.4.5075842" in tn.before:
             # User message
-            print("---------------------------------------")
-            print("Setting backup as active and rebooting.")
-            print("---------------------------------------")
+            print("---------------------------------------------".center(45))
+            print("Setting backup as active and rebooting.".center(45))
+            print("---------------------------------------------".center(45))
             # Set active and reboot
             switch_set_active_reboot()
             time.sleep(300)
         else:
             # User message
-            print("---------------------------")
-            print("Updating switch firmware...")
-            print("---------------------------")
+            print("---------------------------------------------".center(45))
+            print("Updating switch firmware...".center(45))
+            print("---------------------------------------------".center(45))
             # Update switch firmware()
             update_switch_firmware()
             if "successfully" in tn.before:
-                print("File transfer operation completed successfully.\n")
+                print("File transfer operation completed successfully.\n".center(45))
                 # User message
-                print("---------------------------------------")
-                print("Setting backup as active and rebooting.")
-                print("---------------------------------------")
+                print("---------------------------------------------".center(45))
+                print("Setting backup as active and rebooting.".center(45))
+                print("---------------------------------------------".center(45))
                 # Set active and reboot
                 switch_set_active_reboot()
                 time.sleep(300)
             else:
-                print("File transfer failed. Please try again.")
+                print("File transfer failed. Please try again.".center(45))
                 break
     else:
         # No devices found

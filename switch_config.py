@@ -16,10 +16,23 @@
 # provision. Scroll down to see the logic
 # used to check for different switch models.
 
+import pexpect
+
 new_user = "CHANGE ME"
 new_pass = "CHANGE ME"
 priv = " level 15"
 unms_key = "YOUR KEY HERE"
+switch = "192.168.1.2"
+tn = pexpect.spawn("telnet " + switch)
+
+def switch_default_login():
+    tn.expect(":")
+    tn.sendline(creds)
+    tn.expect(":")
+    tn.sendline(creds)
+    tn.expect(">")
+    tn.sendline("enable")
+    tn.expect("#")
 
 def switch_new_login():
     tn.expect(":")
@@ -48,6 +61,12 @@ def switch8():
     tn.sendline("service unms")
     tn.expect("#")
     tn.sendline("exit")
+    tn.expect("#")
+    tn.sendline("write memory")
+    tn.expect("(y/n)")
+    tn.sendline("y")
+    tn.expect("#")
+    tn.sendline("exit")
     tn.expect(">")
     tn.sendline("exit")
 
@@ -65,6 +84,12 @@ def switch16():
     tn.sendline("service unms key" + unms_key)
     tn.expect("#")
     tn.sendline("service unms")
+    tn.expect("#")
+    tn.sendline("exit")
+    tn.expect("#")
+    tn.sendline("write memory")
+    tn.expect("(y/n)")
+    tn.sendline("y")
     tn.expect("#")
     tn.sendline("exit")
     tn.expect(">")
@@ -86,6 +111,12 @@ def switch24():
     tn.sendline("service unms")
     tn.expect("#")
     tn.sendline("exit")
+    tn.expect("#")
+    tn.sendline("write memory")
+    tn.expect("(y/n)")
+    tn.sendline("y")
+    tn.expect("#")
+    tn.sendline("exit")
     tn.expect(">")
     tn.sendline("exit")
 
@@ -103,6 +134,12 @@ def switch48():
     tn.sendline("service unms key" + unms_key)
     tn.expect("#")
     tn.sendline("service unms")
+    tn.expect("#")
+    tn.sendline("exit")
+    tn.expect("#")
+    tn.sendline("write memory")
+    tn.expect("(y/n)")
+    tn.sendline("y")
     tn.expect("#")
     tn.sendline("exit")
     tn.expect(">")
@@ -124,6 +161,12 @@ def switch5():
     tn.sendline("service unms")
     tn.expect("#")
     tn.sendline("exit")
+    tn.expect("#")
+    tn.sendline("write memory")
+    tn.expect("(y/n)")
+    tn.sendline("y")
+    tn.expect("#")
+    tn.sendline("exit")
     tn.expect(">")
     tn.sendline("exit")
 
@@ -141,6 +184,12 @@ def switch10():
     tn.sendline("service unms key" + unms_key)
     tn.expect("#")
     tn.sendline("service unms")
+    tn.expect("#")
+    tn.sendline("exit")
+    tn.expect("#")
+    tn.sendline("write memory")
+    tn.expect("(y/n)")
+    tn.sendline("y")
     tn.expect("#")
     tn.sendline("exit")
     tn.expect(">")
@@ -162,6 +211,12 @@ def switch12():
     tn.sendline("service unms")
     tn.expect("#")
     tn.sendline("exit")
+    tn.expect("#")
+    tn.sendline("write memory")
+    tn.expect("(y/n)")
+    tn.sendline("y")
+    tn.expect("#")
+    tn.sendline("exit")
     tn.expect(">")
     tn.sendline("exit")
 
@@ -179,6 +234,12 @@ def switchS16():
     tn.sendline("service unms key" + unms_key)
     tn.expect("#")
     tn.sendline("service unms")
+    tn.expect("#")
+    tn.sendline("exit")
+    tn.expect("#")
+    tn.sendline("write memory")
+    tn.expect("(y/n)")
+    tn.sendline("y")
     tn.expect("#")
     tn.sendline("exit")
     tn.expect(">")
@@ -200,6 +261,12 @@ def switch16XG():
     tn.sendline("service unms")
     tn.expect("#")
     tn.sendline("exit")
+    tn.expect("#")
+    tn.sendline("write memory")
+    tn.expect("(y/n)")
+    tn.sendline("y")
+    tn.expect("#")
+    tn.sendline("exit")
     tn.expect(">")
     tn.sendline("exit")
 
@@ -209,6 +276,7 @@ def switch16XG():
 # function from being pushed to an ES-16-XG.
 
 def switch_config():
+    switch_default_login()
     tn.sendline("show version")
     tn.expect("Serial")
     if "ES-8" in tn.before:
