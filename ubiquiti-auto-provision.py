@@ -23,6 +23,7 @@ unms_key = "YOUR KEY HERE"
 # Router variables
 router = "192.168.1.1"
 router_tftp = "add system image tftp://192.168.1.199/firmware.tar "
+rtr_sys_img = "v1.10.7.5127989.181001.1227    (running image) (default boot)"
 
 # Switch variables
 switch = "192.168.1.2"
@@ -54,14 +55,12 @@ def router_reboot():
 def provision_router():
     router_login()
     router_firmware_check()
-    if "v1.10.7.5127989.181001.1227    (running image) (default boot)":
+    #if rtr_sys_img in ssh.before:
         router_config()
-    elif "v1.10.7.5127989.181001.1227    (default boot)":
-        router_reboot()
-    elif "v1.10.7.5127989.181001.1227                                  ":
+    #elif "v1.10.7.5127989.181001.1227                                  ":
         router_set_active()
         router_reboot()
-    else:
+    #else:
         update_router_firmware()
         router_reboot()
 
@@ -110,11 +109,11 @@ def switch_set_active_reboot():
     tn.sendline("reload")
 
 # Welcome message
-print("------------------------------------------".center(40))
-print("Welcome to the Ubiquiti EdgeMax and AirMax".center(40))
-print("Auto-Provisioning Application".center(40))
-print("by Bradley Herrin and Josh Moore".center(40))
-print("------------------------------------------".center(40))
+print("---------------------------------------------".center(45))
+print("Welcome to the Ubiquiti EdgeMax and AirMax".center(45))
+print("Auto-Provisioning Application".center(45))
+print("by Bradley Herrin and Josh Moore".center(45))
+print("----------------------------------------------".center(45))
 
 # Ping check
 while pinging:
@@ -128,29 +127,29 @@ while pinging:
         switch_firmware_check()
             if "active  *1.7.4.5075842" in tn.before:
                 # User message
-                print("------------------".center(40))
-                print("Configuring Switch".center(40))
-                print("------------------".center(40))
+                print("------------------".center(18))
+                print("Configuring Switch".center(18))
+                print("------------------".center(18))
                 # Configure switch
                 switch_config.switch_config()
                 if switch_config.switch_config() == 26:
                     # User message
-                    print("--------------------------------------------------")
-                    print("Switch model not found. Switch was not configured.")
-                    print("--------------------------------------------------")
+                    print("--------------------------------------------------".center(50))
+                    print("Switch model not found. Switch was not configured.".center(50))
+                    print("--------------------------------------------------".center(50))
                     break
                 else:
                     # User message
-                    print("------------------------------".center(40))
-                    print("Switch Configured Sucessfully!".center(40))
-                    print("------------------------------".center(40))
+                    print("------------------------------".center(30))
+                    print("Switch Configured Sucessfully!".center(30))
+                    print("------------------------------".center(30))
                     # Break to end program
                     break
             elif "backup  *1.7.4.5075842" in tn.before:
                 # User message
-                print("---------------------------------------".center(40))
-                print("Setting backup as active and rebooting.".center(40))
-                print("---------------------------------------".center(40))
+                print("---------------------------------------".center(39))
+                print("Setting backup as active and rebooting.".center(39))
+                print("---------------------------------------".center(39))
                 # Set active and reboot
                 switch_set_active_reboot()
                 # This break is temporary. Eventually it
@@ -158,9 +157,9 @@ while pinging:
                 break
             else:
                 # User message
-                print("---------------------------".center(40))
-                print("Updating switch firmware...".center(40))
-                print("---------------------------\n".center(40))
+                print("---------------------------".center(27))
+                print("Updating switch firmware...".center(27))
+                print("---------------------------\n".center(27))
                 # Update switch firmware()
                 update_switch_firmware()
                 if "sucessfully" in tn.before:
@@ -169,9 +168,9 @@ while pinging:
                     print("File transfer failed. Please try again.")
                     break
                 # User message
-                print("---------------------------------------".center(40))
-                print("Setting backup as active and rebooting.".center(40))
-                print("---------------------------------------".center(40))
+                print("---------------------------------------".center(39))
+                print("Setting backup as active and rebooting.".center(39))
+                print("---------------------------------------".center(39))
                 # Set active and reboot
                 switch_set_active_reboot()
                 # This break is temporary. Eventually it
