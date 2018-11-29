@@ -9,7 +9,7 @@
 # https://github.com/bradleyherrin/ubiquiti-auto-provisioning
 
 # Imports
-import pexpect,subprocess,time
+import pexpect,subprocess,time,switch_config
 
 
 # Universal variables
@@ -97,31 +97,6 @@ def switch_firmware_check():
     tn.sendline("show bootvar")
     tn.expect("Current")
 
-def switch_config_telnet():
-    # Use this section to build your own
-    # config using tn.sendline and tn.expect.
-    # Currently all this does is add a new
-    # user, remove the default user "ubnt",
-    # set up UNMS, and then close the Telnet
-    # session.
-    tn.sendline("username " + new_user + "password " + new_pass + priv)
-    tn.expect("#")
-    tn.sendline("exit")
-    tn.expect("#")
-    tn.sendline("exit")
-    tn.expect(">")
-    tn.sendline("exit")
-    switch_new_login()
-    tn.sendline("no username ubnt")
-    tn.expect("#")
-    tn.sendline("service unms key" + unms_key)
-    tn.expect("#")
-    tn.sendline("service unms")
-    tn.expect("#")
-    tn.sendline("exit")
-    tn.expect(">")
-    tn.sendline("exit")
-
 def update_switch_firmware():
     tn.sendline(switch_tftp)
     tn.expect("(y/n)")
@@ -157,13 +132,20 @@ while pinging:
                 print("Configuring Switch".center(40))
                 print("------------------".center(40))
                 # Configure switch
-                switch_config_telnet()
-                # User message
-                print("------------------------------".center(40))
-                print("Switch Configured Sucessfully!".center(40))
-                print("------------------------------".center(40))
-                # Break to end program
-                break
+                switch_config.switch_config()
+                if switch_config.switch_config() == 26:
+                    # User message
+                    print("--------------------------------------------------")
+                    print("Switch model not found. Switch was not configured.")
+                    print("--------------------------------------------------")
+                    break
+                else:
+                    # User message
+                    print("------------------------------".center(40))
+                    print("Switch Configured Sucessfully!".center(40))
+                    print("------------------------------".center(40))
+                    # Break to end program
+                    break
             elif "backup  *1.7.4.5075842" in tn.before:
                 # User message
                 print("---------------------------------------".center(40))
