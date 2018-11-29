@@ -213,3 +213,5 @@ def switch_config():
         switch12()
     elif "EP-S16" in tn.before:
         switchS16()
+    else:
+        return 26
