@@ -9,10 +9,9 @@
 # https://github.com/bradleyherrin/ubiquiti-auto-provisioning
 
 # Imports
-import pexpect,subprocess,time,atc_switch_config
+import pexpect,subprocess,time,switch_config
 
-
-# Universal variables
+# Variables
 pinging = True
 ping = "ping -c 5 "
 ping_match = " | grep -c 'bytes from' | grep 5"
@@ -41,36 +40,6 @@ def router_set_active():
 def router_reboot():
     ssh.write("reboot")
 
-# Switch functions
-def switch_default_login():
-    tn.expect(":")
-    tn.sendline(creds)
-    tn.expect(":")
-    tn.sendline(creds)
-    tn.expect(">")
-
-def switch_firmware_check():
-    tn.sendline("enable")
-    tn.expect(":")
-    tn.sendline(creds)
-    tn.expect("#")
-    tn.sendline("show bootvar")
-    tn.expect("Current")
-
-def update_switch_firmware():
-    tn.sendline(switch_tftp)
-    tn.expect("(y/n)")
-    tn.sendline("y")
-    time.sleep(240)
-    tn.expect("lly.")
-
-def switch_set_active_reboot():
-    tn.sendline("boot system backup")
-    tn.expect("#")
-    tn.sendline("reload")
-    tn.expect("(y/n)")
-    tn.sendline("y")
-
 # Welcome message
 print("---------------------------------------------".center(45))
 print("Welcome to the Ubiquiti EdgeMax and AirMax".center(45))
@@ -86,16 +55,16 @@ while pinging:
         break
     elif subprocess.call(ping + switch + ping_match, shell=True) == 0:
         # Check switch firmware
-        switch_default_login()
-        switch_firmware_check()
-        if "active  *1.7.4.5075842" in tn.before:
+        edgeswitch.switch_default_login()
+        edgeswitch.switch_firmware_check()
+        if "active  *1.7.4.5075842" in edgeswitch.tn.before:
             # User message
             print("---------------------------------------------".center(45))
             print("Configuring Switch".center(45))
             print("---------------------------------------------".center(45))
             # Configure switch
-            atc_switch_config.switch_config()
-            if atc_switch_config.switch_config() == 26:
+            edgeswtich.switch_config()
+            if edgeswitch.switch_config() == 26:
                 # User message
                 print("---------------------------------------------".center(45))
                 print("Switch model not found. Switch was not configured.").center(45)
@@ -108,13 +77,13 @@ while pinging:
                 print("---------------------------------------------".center(45))
                 # Break to end program
                 break
-        elif "backup   1.7.4.5075842" in tn.before:
+        elif "backup   1.7.4.5075842" in edgeswitch.tn.before:
             # User message
             print("---------------------------------------------".center(45))
             print("Setting backup as active and rebooting.".center(45))
             print("---------------------------------------------".center(45))
             # Set active and reboot
-            switch_set_active_reboot()
+            edgeswitch.switch_set_active_reboot()
             time.sleep(300)
         else:
             # User message
@@ -122,15 +91,15 @@ while pinging:
             print("Updating switch firmware...".center(45))
             print("---------------------------------------------".center(45))
             # Update switch firmware()
-            update_switch_firmware()
-            if "success" in tn.before:
+            edgeswitch.update_switch_firmware()
+            if "success" in edgeswitch.tn.before:
                 print("File transfer operation completed successfully.\n".center(45))
                 # User message
                 print("---------------------------------------------".center(45))
                 print("Setting backup as active and rebooting.".center(45))
                 print("---------------------------------------------".center(45))
                 # Set active and reboot
-                switch_set_active_reboot()
+                edgeswitch.switch_set_active_reboot()
                 time.sleep(300)
             else:
                 print("File transfer failed. Please try again.".center(45))
