@@ -4,7 +4,7 @@
 # This project is authored by Bradley Herrin and Josh Moore.
 # It is covered under the GPL-3.0 license.
 # The goal of this project is to use Python to
-# auto-provision Ubiquiti EdgeRouters and EdgeSwitches.
+# auto-provision Ubiquiti EdgeMax and AirMax products.
 # View the full project on GitHub
 # https://github.com/bradleyherrin/ubiquiti-auto-provisioning
 
@@ -12,7 +12,7 @@
 city = input('What city will this device be installed in? \n')
 company = input('What company will this device be installed at? \n')
 location_q1 = 'Will this device go in a specific location for this company? '
-location_p1 = '(example: Anodizer building at Elixir) '
+location_p1 = '(example: a warehouse behind the main office) '
 location_q2 = 'If so what is the name of this location '
 location_p2 = '(Leave blank for no specific location)? '
 location = input(location_q1 + location_p1 + location_q2 + location_p2 + '\n')
