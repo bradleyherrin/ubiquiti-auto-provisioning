@@ -16,6 +16,22 @@
 # provision. Scroll down to see the logic
 # used to check for different switch models.
 
+new_user = "CHANGE ME"
+new_pass = "CHANGE ME"
+priv = " level 15"
+unms_key = "YOUR KEY HERE"
+
+def switch_new_login():
+    tn.expect(":")
+    tn.sendline(new_user)
+    tn.expect(":")
+    tn.sendline(new_pass)
+    tn.expect(">")
+    tn.sendline("enable")
+    tn.expect("#")
+    tn.sendline("configure")
+    tn.expect("#")
+
 def switch8():
     tn.sendline("username " + new_user + "password " + new_pass + priv)
     tn.expect("#")

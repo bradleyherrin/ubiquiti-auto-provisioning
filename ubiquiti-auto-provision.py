@@ -18,20 +18,15 @@ ping = "ping -c 5 "
 ping_match = " | grep -c 'bytes from' | grep 5"
 creds = "ubnt"
 linux_pc = "192.168.1.199"
-unms_key = "YOUR KEY HERE"
 
 # Router variables
 router = "192.168.1.1"
 router_tftp = "add system image tftp://192.168.1.199/firmware.tar "
-rtr_sys_img = "v1.10.7.5127989.181001.1227    (running image) (default boot)"
 
 # Switch variables
 switch = "192.168.1.2"
-switch_tftp = "copy tftp://192.168.1.199/ES-eswh.v1.7.4.5075842.stk backup\n"
+switch_tftp = "copy tftp://192.168.1.199/ES-eswh.v1.7.4.5075842.stk backup"
 tn = pexpect.spawn("telnet " + switch)
-new_user = "CHANGE ME"
-new_pass = "CHANGE ME"
-priv = " level 15"
 
 # Router functions
 def router_login():
@@ -60,23 +55,7 @@ def switch_default_login():
     tn.sendline(creds)
     tn.expect(">")
 
-def switch_new_login():
-    tn.expect(":")
-    tn.sendline(new_user)
-    tn.expect(":")
-    tn.sendline(new_pass)
-    tn.expect(">")
-    tn.sendline("enable")
-    tn.expect("#")
-    tn.sendline("configure")
-    tn.expect("#")
-
 def switch_firmware_check():
-    tn.expect(":")
-    tn.sendline(creds)
-    tn.expect(":")
-    tn.sendline(creds)
-    tn.expect(">")
     tn.sendline("enable")
     tn.expect(":")
     tn.sendline(creds)
@@ -88,8 +67,8 @@ def update_switch_firmware():
     tn.sendline(switch_tftp)
     tn.expect("(y/n)")
     tn.sendline("y")
-    time.sleep(300)
-    tn.expect("#")
+    time.sleep(240)
+    tn.expect("lly.")
 
 def switch_set_active_reboot():
     tn.sendline("boot system backup")
@@ -111,59 +90,55 @@ while pinging:
         break
     elif subprocess.call(ping + switch + ping_match, shell=True) == 0:
         # Check switch firmware
-        switch_login()
+        switch_default_login()
         switch_firmware_check()
         if "active  *1.7.4.5075842" in tn.before:
             # User message
-            print("------------------".center(18))
-            print("Configuring Switch".center(18))
-            print("------------------".center(18))
+            print("------------------")
+            print("Configuring Switch")
+            print("------------------")
             # Configure switch
             switch_config.switch_config()
             if switch_config.switch_config() == 26:
                 # User message
-                print("--------------------------------------------------".center(50))
-                print("Switch model not found. Switch was not configured.".center(50))
-                print("--------------------------------------------------".center(50))
+                print("--------------------------------------------------")
+                print("Switch model not found. Switch was not configured.")
+                print("--------------------------------------------------")
                 break
             else:
                 # User message
-                print("------------------------------".center(30))
-                print("Switch Configured Sucessfully!".center(30))
-                print("------------------------------".center(30))
+                print("------------------------------")
+                print("Switch Configured Sucessfully!")
+                print("------------------------------")
                 # Break to end program
                 break
-        elif "backup  *1.7.4.5075842" in tn.before:
+        elif "backup   1.7.4.5075842" in tn.before:
             # User message
-            print("---------------------------------------".center(39))
-            print("Setting backup as active and rebooting.".center(39))
-            print("---------------------------------------".center(39))
+            print("---------------------------------------")
+            print("Setting backup as active and rebooting.")
+            print("---------------------------------------")
             # Set active and reboot
             switch_set_active_reboot()
-            # This break is temporary. Eventually it
-            # will be replaced with a time.sleep(300)
-            break
+            time.sleep(300)
         else:
             # User message
-            print("---------------------------".center(27))
-            print("Updating switch firmware...".center(27))
-            print("---------------------------\n".center(27))
+            print("---------------------------")
+            print("Updating switch firmware...")
+            print("---------------------------")
             # Update switch firmware()
             update_switch_firmware()
-            if "sucessfully" in tn.before:
-                print("File transfer operation completed sucessfully.\n")
+            if "successfully" in tn.before:
+                print("File transfer operation completed successfully.\n")
+                # User message
+                print("---------------------------------------")
+                print("Setting backup as active and rebooting.")
+                print("---------------------------------------")
+                # Set active and reboot
+                switch_set_active_reboot()
+                time.sleep(300)
             else:
                 print("File transfer failed. Please try again.")
                 break
-            # User message
-            print("---------------------------------------".center(39))
-            print("Setting backup as active and rebooting.".center(39))
-            print("---------------------------------------".center(39))
-            # Set active and reboot
-            switch_set_active_reboot()
-            # This break is temporary. Eventually it
-            # will be replaced with a time.sleep(300)
-            break
     else:
         # No devices found
         print('No devices found.')
