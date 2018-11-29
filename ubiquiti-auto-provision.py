@@ -4,12 +4,12 @@
 # This project is authored by Bradley Herrin and Josh Moore.
 # It is covered under the GPL-3.0 license.
 # The goal of this project is to use Python to
-# auto-provision Ubiquiti EdgeRouters and EdgeSwitches.
+# auto-provision Ubiquiti EdgeMax and AirMax products.
 # View the full project on GitHub
 # https://github.com/bradleyherrin/ubiquiti-auto-provisioning
 
 # Imports
-import subprocess,pexpect,time
+import pexpect,subprocess,time
 
 
 # Universal variables
@@ -18,6 +18,7 @@ ping = "ping -c 5 "
 ping_match = " | grep -c 'bytes from' | grep 5"
 creds = "ubnt"
 linux_pc = "192.168.1.199"
+unms_key = "YOUR KEY HERE"
 
 # Router variables
 router = "192.168.1.1"
@@ -27,7 +28,9 @@ router_tftp = "add system image tftp://192.168.1.199/firmware.tar "
 switch = "192.168.1.2"
 switch_tftp = "copy tftp://192.168.1.199/ES-eswh.v1.7.4.5075842.stk backup\n"
 tn = pexpect.spawn("telnet " + switch)
-switch_output = tn.before
+new_user = "CHANGE ME"
+new_pass = "CHANGE ME"
+priv = " level 15"
 
 # Router functions
 def router_login():
@@ -63,6 +66,24 @@ def provision_router():
         router_reboot()
 
 # Switch functions
+def switch_default_login():
+    tn.expect(":")
+    tn.sendline(creds)
+    tn.expect(":")
+    tn.sendline(creds)
+    tn.expect(">")
+
+def switch_new_login():
+    tn.expect(":")
+    tn.sendline(new_user)
+    tn.expect(":")
+    tn.sendline(new_pass)
+    tn.expect(">")
+    tn.sendline("enable")
+    tn.expect("#")
+    tn.sendline("configure")
+    tn.expect("#")
+
 def switch_firmware_check():
     tn.expect(":")
     tn.sendline(creds)
@@ -76,8 +97,30 @@ def switch_firmware_check():
     tn.sendline("show bootvar")
     tn.expect("Current")
 
-def switch_config():
-    print('Switch Config Under Construction')
+def switch_config_telnet():
+    # Use this section to build your own
+    # config using tn.sendline and tn.expect.
+    # Currently all this does is add a new
+    # user, remove the default user "ubnt",
+    # set up UNMS, and then close the Telnet
+    # session.
+    tn.sendline("username " + new_user + "password " + new_pass + priv)
+    tn.expect("#")
+    tn.sendline("exit")
+    tn.expect("#")
+    tn.sendline("exit")
+    tn.expect(">")
+    tn.sendline("exit")
+    switch_new_login()
+    tn.sendline("no username ubnt")
+    tn.expect("#")
+    tn.sendline("service unms key" + unms_key)
+    tn.expect("#")
+    tn.sendline("service unms")
+    tn.expect("#")
+    tn.sendline("exit")
+    tn.expect(">")
+    tn.sendline("exit")
 
 def update_switch_firmware():
     tn.sendline(switch_tftp)
@@ -106,6 +149,7 @@ while pinging:
         break
     elif subprocess.call(ping + switch + ping_match, shell=True) == 0:
         # Check switch firmware
+        switch_login()
         switch_firmware_check()
             if "active  *1.7.4.5075842" in tn.before:
                 # User message
@@ -113,7 +157,7 @@ while pinging:
                 print("Configuring Switch".center(40))
                 print("------------------".center(40))
                 # Configure switch
-                switch_config()
+                switch_config_telnet()
                 # User message
                 print("------------------------------".center(40))
                 print("Switch Configured Sucessfully!".center(40))
