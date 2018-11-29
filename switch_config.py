@@ -23,6 +23,7 @@ new_pass = "CHANGE ME"
 priv = " level 15"
 unms_key = "YOUR KEY HERE"
 switch = "192.168.1.2"
+creds = "ubnt"
 tn = pexpect.spawn("telnet " + switch)
 
 def switch_default_login():
