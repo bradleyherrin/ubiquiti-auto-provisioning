@@ -9,7 +9,7 @@
 # https://github.com/bradleyherrin/ubiquiti-auto-provisioning
 
 # Imports
-import pexpect,subprocess,time,switch_config
+import pexpect,subprocess,time,atc_switch_config
 
 
 # Universal variables
@@ -98,7 +98,7 @@ while pinging:
             print("Configuring Switch")
             print("------------------")
             # Configure switch
-            switch_config.switch_config()
+            atc_switch_config.switch_config()
             if switch_config.switch_config() == 26:
                 # User message
                 print("--------------------------------------------------")
