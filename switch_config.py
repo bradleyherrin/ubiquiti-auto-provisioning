@@ -33,6 +33,8 @@ def switch_default_login():
     tn.sendline(creds)
     tn.expect(">")
     tn.sendline("enable")
+    tn.expect(":")
+    tn.sendline(creds)
     tn.expect("#")
 
 def switch_new_login():
@@ -42,6 +44,8 @@ def switch_new_login():
     tn.sendline(new_pass)
     tn.expect(">")
     tn.sendline("enable")
+    tn.expect(":")
+    tn.sendline(new_pass)
     tn.expect("#")
     tn.sendline("configure")
     tn.expect("#")
