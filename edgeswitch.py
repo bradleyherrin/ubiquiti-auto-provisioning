@@ -1,4 +1,4 @@
-# switch_config.py
+# edgeswitch.py
 # This project is authored by Bradley Herrin and Josh Moore.
 # It is covered under the GPL-3.0 license.
 # The goal of this project is to use Python to
@@ -10,23 +10,27 @@
 # configs using tn.sendline and tn.expect.
 # Currently all this does is add a new
 # user, remove the default user "ubnt",
-# set up UNMS, and then close the Telnet
-# session. The idea is that you would build
+# enable UNMS. Make sure to add your key
+# to the unms_key variable and uncomment
+# the lines in the switch config. The idea
+# for this file is that you would build
 # out configs for each model you need to
 # provision. Scroll down to see the logic
-# used to check for different switch models.
+# used to check for the switch model.
 
 # Imports
 import pexpect
 
 # Variables
+linux_pc = "192.168.1.199"
 switch = "192.168.1.2"
-switch_tftp = "copy tftp://192.168.1.199/ES-eswh.v1.7.4.5075842.stk backup"
+firmware = "ES-eswh.v1.7.4.5075842.stk"
+switch_tftp = "copy tftp://" + linux_pc + "/" + firmware + " backup"
 creds = "ubnt"
-new_user = "CHANGE ME"
-new_pass = "CHANGE ME"
+new_user = "ChangeMe123"
+new_pass = "ChangeMe123"
 priv = " level 15"
-unms_key = "YOUR KEY HERE"
+unms_key = "YourKeyHere"
 tn = pexpect.spawn("telnet " + switch)
 
 # Functions
@@ -87,8 +91,8 @@ def switch8():
     tn.sendline("exit")
     switch_new_login()
     tn.sendline("no username ubnt")
-    tn.expect("#")
-    tn.sendline("service unms key" + unms_key)
+    #tn.expect("#")
+    #tn.sendline("service unms key" + unms_key)
     tn.expect("#")
     tn.sendline("service unms")
     tn.expect("#")
@@ -112,8 +116,8 @@ def switch16():
     tn.sendline("exit")
     switch_new_login()
     tn.sendline("no username ubnt")
-    tn.expect("#")
-    tn.sendline("service unms key" + unms_key)
+    #tn.expect("#")
+    #tn.sendline("service unms key" + unms_key)
     tn.expect("#")
     tn.sendline("service unms")
     tn.expect("#")
@@ -137,8 +141,8 @@ def switch24():
     tn.sendline("exit")
     switch_new_login()
     tn.sendline("no username ubnt")
-    tn.expect("#")
-    tn.sendline("service unms key" + unms_key)
+    #tn.expect("#")
+    #tn.sendline("service unms key" + unms_key)
     tn.expect("#")
     tn.sendline("service unms")
     tn.expect("#")
@@ -162,8 +166,8 @@ def switch48():
     tn.sendline("exit")
     switch_new_login()
     tn.sendline("no username ubnt")
-    tn.expect("#")
-    tn.sendline("service unms key" + unms_key)
+    #tn.expect("#")
+    #tn.sendline("service unms key" + unms_key)
     tn.expect("#")
     tn.sendline("service unms")
     tn.expect("#")
@@ -187,8 +191,8 @@ def switch5():
     tn.sendline("exit")
     switch_new_login()
     tn.sendline("no username ubnt")
-    tn.expect("#")
-    tn.sendline("service unms key" + unms_key)
+    #tn.expect("#")
+    #tn.sendline("service unms key" + unms_key)
     tn.expect("#")
     tn.sendline("service unms")
     tn.expect("#")
@@ -212,8 +216,8 @@ def switch10():
     tn.sendline("exit")
     switch_new_login()
     tn.sendline("no username ubnt")
-    tn.expect("#")
-    tn.sendline("service unms key" + unms_key)
+    #tn.expect("#")
+    #tn.sendline("service unms key" + unms_key)
     tn.expect("#")
     tn.sendline("service unms")
     tn.expect("#")
@@ -237,8 +241,8 @@ def switch12():
     tn.sendline("exit")
     switch_new_login()
     tn.sendline("no username ubnt")
-    tn.expect("#")
-    tn.sendline("service unms key" + unms_key)
+    #tn.expect("#")
+    #tn.sendline("service unms key" + unms_key)
     tn.expect("#")
     tn.sendline("service unms")
     tn.expect("#")
@@ -262,8 +266,8 @@ def switchS16():
     tn.sendline("exit")
     switch_new_login()
     tn.sendline("no username ubnt")
-    tn.expect("#")
-    tn.sendline("service unms key" + unms_key)
+    #tn.expect("#")
+    #tn.sendline("service unms key" + unms_key)
     tn.expect("#")
     tn.sendline("service unms")
     tn.expect("#")
@@ -287,8 +291,8 @@ def switch16XG():
     tn.sendline("exit")
     switch_new_login()
     tn.sendline("no username ubnt")
-    tn.expect("#")
-    tn.sendline("service unms key" + unms_key)
+    #tn.expect("#")
+    #tn.sendline("service unms key" + unms_key)
     tn.expect("#")
     tn.sendline("service unms")
     tn.expect("#")
