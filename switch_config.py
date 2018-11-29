@@ -16,16 +16,21 @@
 # provision. Scroll down to see the logic
 # used to check for different switch models.
 
+# Imports
 import pexpect
 
+# Variables
+switch = "192.168.1.2"
+switch_tftp = "copy tftp://192.168.1.199/ES-eswh.v1.7.4.5075842.stk backup"
+creds = "ubnt"
 new_user = "CHANGE ME"
 new_pass = "CHANGE ME"
 priv = " level 15"
 unms_key = "YOUR KEY HERE"
-switch = "192.168.1.2"
-creds = "ubnt"
 tn = pexpect.spawn("telnet " + switch)
+tn_new = pexpect.spawn("telnet " + switch)
 
+# Functions
 def switch_default_login():
     tn.expect(":")
     tn.sendline(creds)
@@ -49,6 +54,29 @@ def switch_new_login():
     tn.expect("#")
     tn.sendline("configure")
     tn.expect("#")
+
+def switch_firmware_check():
+    tn.sendline("enable")
+    tn.expect(":")
+    tn.sendline(creds)
+    tn.expect("#")
+    tn.sendline("show bootvar")
+    tn.expect("Current")
+
+def update_switch_firmware():
+    tn.sendline(switch_tftp)
+    tn.expect("(y/n)")
+    tn.sendline("y")
+    time.sleep(240)
+    tn.expect("lly.")
+
+def switch_set_active_reboot():
+    tn.sendline("boot system backup")
+    tn.expect("#")
+    tn.sendline("reload")
+    tn.expect("(y/n)")
+    tn.sendline("y")
+    tn.close()
 
 def switch8():
     tn.sendline("username " + new_user + "password " + new_pass + priv)

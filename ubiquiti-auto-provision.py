@@ -16,24 +16,18 @@ import pexpect,subprocess,time,atc_switch_config
 pinging = True
 ping = "ping -c 5 "
 ping_match = " | grep -c 'bytes from' | grep 5"
-creds = "ubnt"
 linux_pc = "192.168.1.199"
 
 # Router variables
 router = "192.168.1.1"
 router_tftp = "add system image tftp://192.168.1.199/firmware.tar "
 
-# Switch variables
-switch = "192.168.1.2"
-switch_tftp = "copy tftp://192.168.1.199/ES-eswh.v1.7.4.5075842.stk backup"
-tn = pexpect.spawn("telnet " + switch)
-
 # Router functions
 def router_login():
     print("Router Login Under Construction")
 
 def router_firmware_check():
-    ssh.write("show system image\n")
+    ssh.write("show system image")
 
 def router_config():
     print("Router Config Under Construction")
@@ -42,10 +36,10 @@ def update_router_firmware():
     ssh.write(router_tftp)
 
 def router_set_active():
-    ssh.write("set system image default-boot\n")
+    ssh.write("set system image default-boot")
 
 def router_reboot():
-    ssh.write("reboot\n")
+    ssh.write("reboot")
 
 # Switch functions
 def switch_default_login():
@@ -96,12 +90,12 @@ while pinging:
         switch_firmware_check()
         if "active  *1.7.4.5075842" in tn.before:
             # User message
-            printprint("---------------------------------------------".center(45))
+            print("---------------------------------------------".center(45))
             print("Configuring Switch".center(45))
-            printprint("---------------------------------------------".center(45))
+            print("---------------------------------------------".center(45))
             # Configure switch
             atc_switch_config.switch_config()
-            if switch_config.switch_config() == 26:
+            if atc_switch_config.switch_config() == 26:
                 # User message
                 print("---------------------------------------------".center(45))
                 print("Switch model not found. Switch was not configured.").center(45)
@@ -129,7 +123,7 @@ while pinging:
             print("---------------------------------------------".center(45))
             # Update switch firmware()
             update_switch_firmware()
-            if "successfully" in tn.before:
+            if "success" in tn.before:
                 print("File transfer operation completed successfully.\n".center(45))
                 # User message
                 print("---------------------------------------------".center(45))
