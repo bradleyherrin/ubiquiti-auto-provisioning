@@ -10,12 +10,12 @@
 ---
 
 ## About
-This goal of this project is to use Python to auto-provision EdgeRouters and EdgeSwitches. In this case, auto-provisioning includes updating the firmware followed by pushing a base configuration. As of right now the idea is for the workflow to be as follows:
+This goal of this project is to use Python to auto-provision Ubiquiti EdgeMax and AirMax products. In this case, auto-provisioning includes updating the firmware followed by pushing a base configuration. As of right now the idea is for the workflow to be as follows:
 
-1. Plug up an EdgeMax device with a default config into the auto-provisioning network that consists of a Linux PC and a switch.
+1. Plug up a device with a default config into Linux PC. The device cannot be connected to the internet, but if your Linux PC has two interfaces, one can be on the internet and the other can be statically assigned. A Raspberry Pi 3 B+ is a great option since it has ethernet and WiFi.
 2. The Linux PC will then provision the device. This saves time by eliminating the need for manually updating firmware and manually configuring repetitive things that are required for every install.
 3. Remove the device from the auto-provisioning network. From here you have two options:
-    * Rebox the equipment and stage it for pickup by the installer and perform final configuration remotely. The caveat here is that you need to make sure you have remote access. In the case of EdgeRouters, UNMS will be the backdoor to finish up remotely. In the case of EdgeSwitches, either make sure you have Layer 2 access or install an ER-X alongside the switch for remote configuration. The ER-X can be left or picked up at a later date.
+    * Rebox the equipment and stage it for pickup by the installer and perform final configuration remotely.
     * Stage the equipment to someone to do final configuration. This is helpful when discovery is done ahead of time by you or the customer and you know all the customer-exclusive information that needs to be added like IPs, VLANS, port assignments, etc.
 
 ## Technical Stuff
@@ -26,8 +26,8 @@ EdgeMax devices have the following default IPs.
 * EdgeRouters - 192.168.1.1/24
 * EdgeSwitches - 192.168.1.2/24
 
-This means the Linux PC will need to be configured with a static IP on the same subnet.
+AirMax devices use 192.168.1.20/24 as their default IP.
 
-After determining device type through ping, the Linux PC will then access the device through either SSH (EdgeRouters) or Telnet (EdgeSwitches) and a firmware check will be performed. If a certain version isn't detected The firmware will be updated via a TFTP server running on the same Linux PC. Once the result of the firmware check is equal to the required version, the base configuration will be pushed to the device.
+This means the Linux PC will need to be configured with a static IP on the same 192.168.1.0/24 subnet.
 
-Now, in the case of my department at work, the device is ready to have customer-exclusive information configured in the next stage.
+After determining device type through ping, the Linux PC will then access the device through either SSH or Telnet and a firmware check will be performed. If a certain version isn't detected The firmware will be updated via a TFTP server running on the same Linux PC. Once the result of the firmware check is equal to the required version, the base configuration will be pushed to the device.
