@@ -52,18 +52,6 @@ def router_set_active():
 def router_reboot():
     ssh.write("reboot\n")
 
-def provision_router():
-    router_login()
-    router_firmware_check()
-    #if rtr_sys_img in ssh.before:
-        router_config()
-    #elif "v1.10.7.5127989.181001.1227                                  ":
-        router_set_active()
-        router_reboot()
-    #else:
-        update_router_firmware()
-        router_reboot()
-
 # Switch functions
 def switch_default_login():
     tn.expect(":")
