@@ -41,7 +41,7 @@ print("---------------------------------------------".center(45))
 
 # Ping check
 while pinging:
-    if subprocess.call(ping + router + ping_match, shell=True) == 0:
+    if subprocess.call(ping + edgerouter.router + ping_match, shell=True) == 0:
         # Check router version
         edgerouter.default_login()
         edgerouter.version_check()
@@ -198,7 +198,7 @@ while pinging:
         else:
             edgerouter.model_not_found_um()
             break
-    elif subprocess.call(ping + switch + ping_match, shell=True) == 0:
+    elif subprocess.call(ping + edgeswitch.switch + ping_match, shell=True) == 0:
         # Check switch firmware
         edgeswitch.default_login()
         edgeswitch.firmware_check()
