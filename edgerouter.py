@@ -22,8 +22,8 @@ creds = "ubnt"
 new_user = "ChangeMe123"
 new_pass = "ChangeMe123"
 unms_key = "YourKeyHere"
-def_ssh = pexpect.spawn("ssh " + creds + switch)
-new_ssh = pexpect.spawn("ssh " + credsswitch)
+def_ssh = pexpect.spawn("ssh " + creds + "@" + router)
+new_ssh = pexpect.spawn("ssh " + new_user + "@" + router)
 under_construction = print("Router Configuration Under Construction")
 
 
@@ -101,32 +101,87 @@ def set_active_reboot():
     def_ssh.expect("[confirm]")
     def_ssh.sendline("y")
 
+# Use this section to build your own
+# configs. Currently all these provide
+# the same level of configuration as
+# the basic setup wizard when DHCP is
+# selected as the WAN connection type.
+# Scroll down to see the logic used to
+# check for the router model.
+
+def er_x_config():
+    under_construction
+
+def er_x_sfp_config():
+    under_construction
+
+def er_10x_config():
+    under_construction
+
+def ep_r6_config():
+    under_construction
+
+def erlite_3_config():
+    under_construction
+
+def erpoe_5_config():
+    under_construction
+
+def er_8_config():
+    under_construction
+
+def er_pro8_config():
+    under_construction
+
+def ep_r8_config():
+    under_construction
+
+def er_4_config():
+    under_construction
+
+def er_6p_config():
+    under_construction
+
+def er_12_config():
+    under_construction
+
+def er_infinity_config():
+    under_construction
+
+# Here is the logic that will check for which config to serve.
+# Keep in mind that the order is important. For example, the
+# EdgeRouter (ER-8) is last, otherwise it will cause the wrong
+# function to be pushed. Also, a disclaimer, I don't have an
+# ER-8 to test with. I'm assuming it reports "EdgeRouter" as
+# the HW Model. If you provison the ER-8 often, I would do a
+# show version command on one to be sure.
+
 def config():
     version_check()
     if "EdgeRouter X" in def_ssh.before:
-        under_construction
+        er_x_config()
     elif "EdgeRouter X SFP" in def_ssh.before:
-        under_construction
+        er_x_sfp_config()
     elif "EdgeRouter 10X" in def_ssh.before:
-        under_construction
+        er_10x_config()
     elif "EdgePoint Router 6" in def_ssh.before:
-        under_construction
+        ep_r6_config()
     elif "EdgeRouter Lite" in def_ssh.before:
-        under_construction
+        erlite_3_config()
     elif "EdgeRouter PoE" in in def_ssh.before:
-        under_construction
+        erpoe_5_config()
     elif "EdgeRouter Pro" in def_ssh.before:
-        under_construction
+        er_pro8_config()
     elif "EdgePoint Router 8" in def_ssh.before:
-        under_construction
+        ep_r8_config()
     elif "EdgeRouter 4" in def_ssh.before:
-        under_construction
+        er_4_config()
     elif "EdgeRouter 6P" in def_ssh.before:
-        under_construction
+        er_6p_config()
     elif "EdgeRouter 12" in def_ssh.before:
-        under_construction
+        er_12_config()
     elif "EdgeRouter Infinity" in def_ssh.before:
-        under_construction
+        er_x_config()
     elif "EdgeRouter" in def_ssh.before:
         under_construction
     else:
