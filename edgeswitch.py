@@ -25,7 +25,7 @@ import pexpect
 linux_pc = "192.168.1.199"
 switch = "192.168.1.2"
 firmware = "ES-eswh.v1.7.4.5075842.stk"
-switch_tftp = "copy tftp://" + linux_pc + "/" + firmware + " backup"
+tftp = "copy tftp://" + linux_pc + "/" + firmware + " backup"
 creds = "ubnt"
 new_user = "ChangeMe123"
 new_pass = "ChangeMe123"
@@ -34,7 +34,7 @@ unms_key = "YourKeyHere"
 tn = pexpect.spawn("telnet " + switch)
 
 # Functions
-def switch_default_login():
+def default_login():
     tn.expect(":")
     tn.sendline(creds)
     tn.expect(":")
@@ -45,7 +45,7 @@ def switch_default_login():
     tn.sendline(creds)
     tn.expect("#")
 
-def switch_new_login():
+def new_login():
     tn.expect(":")
     tn.sendline(new_user)
     tn.expect(":")
@@ -58,7 +58,7 @@ def switch_new_login():
     tn.sendline("configure")
     tn.expect("#")
 
-def switch_firmware_check():
+def firmware_check():
     tn.sendline("enable")
     tn.expect(":")
     tn.sendline(creds)
@@ -66,14 +66,14 @@ def switch_firmware_check():
     tn.sendline("show bootvar")
     tn.expect("Current")
 
-def update_switch_firmware():
+def update_firmware():
     tn.sendline(switch_tftp)
     tn.expect("(y/n)")
     tn.sendline("y")
     time.sleep(240)
     tn.expect("lly.")
 
-def switch_set_active_reboot():
+def set_active_reboot():
     tn.sendline("boot system backup")
     tn.expect("#")
     tn.sendline("reload")
@@ -89,7 +89,7 @@ def switch8():
     tn.sendline("exit")
     tn.expect(">")
     tn.sendline("exit")
-    switch_new_login()
+    new_login()
     tn.sendline("no username ubnt")
     #tn.expect("#")
     #tn.sendline("service unms key" + unms_key)
@@ -114,7 +114,7 @@ def switch16():
     tn.sendline("exit")
     tn.expect(">")
     tn.sendline("exit")
-    switch_new_login()
+    new_login()
     tn.sendline("no username ubnt")
     #tn.expect("#")
     #tn.sendline("service unms key" + unms_key)
@@ -139,7 +139,7 @@ def switch24():
     tn.sendline("exit")
     tn.expect(">")
     tn.sendline("exit")
-    switch_new_login()
+    new_login()
     tn.sendline("no username ubnt")
     #tn.expect("#")
     #tn.sendline("service unms key" + unms_key)
@@ -164,7 +164,7 @@ def switch48():
     tn.sendline("exit")
     tn.expect(">")
     tn.sendline("exit")
-    switch_new_login()
+    new_login()
     tn.sendline("no username ubnt")
     #tn.expect("#")
     #tn.sendline("service unms key" + unms_key)
@@ -189,7 +189,7 @@ def switch5():
     tn.sendline("exit")
     tn.expect(">")
     tn.sendline("exit")
-    switch_new_login()
+    new_login()
     tn.sendline("no username ubnt")
     #tn.expect("#")
     #tn.sendline("service unms key" + unms_key)
@@ -214,7 +214,7 @@ def switch10():
     tn.sendline("exit")
     tn.expect(">")
     tn.sendline("exit")
-    switch_new_login()
+    new_login()
     tn.sendline("no username ubnt")
     #tn.expect("#")
     #tn.sendline("service unms key" + unms_key)
@@ -239,7 +239,7 @@ def switch12():
     tn.sendline("exit")
     tn.expect(">")
     tn.sendline("exit")
-    switch_new_login()
+    new_login()
     tn.sendline("no username ubnt")
     #tn.expect("#")
     #tn.sendline("service unms key" + unms_key)
@@ -264,7 +264,7 @@ def switchS16():
     tn.sendline("exit")
     tn.expect(">")
     tn.sendline("exit")
-    switch_new_login()
+    new_login()
     tn.sendline("no username ubnt")
     #tn.expect("#")
     #tn.sendline("service unms key" + unms_key)
@@ -289,7 +289,7 @@ def switch16XG():
     tn.sendline("exit")
     tn.expect(">")
     tn.sendline("exit")
-    switch_new_login()
+    new_login()
     tn.sendline("no username ubnt")
     #tn.expect("#")
     #tn.sendline("service unms key" + unms_key)
@@ -311,8 +311,8 @@ def switch16XG():
 # ES-16-XG comes before ES-16 switch to prevent the switch16()
 # function from being pushed to an ES-16-XG.
 
-def switch_config():
-    switch_default_login()
+def config():
+    default_login()
     tn.sendline("show version")
     tn.expect("Serial")
     if "ES-8" in tn.before:
