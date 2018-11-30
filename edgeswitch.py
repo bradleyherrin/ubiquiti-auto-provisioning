@@ -6,18 +6,6 @@
 # View the full project on GitHub
 # https://github.com/bradleyherrin/ubiquiti-auto-provisioning
 
-# Use this section to build your own
-# configs using tn.sendline and tn.expect.
-# Currently all this does is add a new
-# user, remove the default user "ubnt",
-# enable UNMS. Make sure to add your key
-# to the unms_key variable and uncomment
-# the lines in the switch config. The idea
-# for this file is that you would build
-# out configs for each model you need to
-# provision. Scroll down to see the logic
-# used to check for the switch model.
-
 # Imports
 import pexpect
 
@@ -105,6 +93,18 @@ def set_active_reboot():
     tn.expect("(y/n)")
     tn.sendline("y")
     tn.close()
+
+# Use this section to build your own
+# configs using tn.sendline and tn.expect.
+# Currently all this does is add a new
+# user, remove the default user "ubnt",
+# enable UNMS. Make sure to add your key
+# to the unms_key variable and uncomment
+# the lines in the switch config. The idea
+# for this file is that you would build
+# out configs for each model you need to
+# provision. Scroll down to see the logic
+# used to check for the switch model.
 
 def switch8():
     tn.sendline("username " + new_user + "password " + new_pass + priv)
