@@ -34,6 +34,31 @@ unms_key = "YourKeyHere"
 tn = pexpect.spawn("telnet " + switch)
 
 # Functions
+def configuring_um():
+    print("---------------------------------------------".center(45))
+    print("Configuring Switch".center(45))
+    print("---------------------------------------------".center(45))
+
+def model_not_found_um():
+    print("---------------------------------------------".center(45))
+    print("Switch model not found. Switch was not configured.").center(45)
+    print("---------------------------------------------".center(45))
+
+def configured_successfully_um():
+    print("---------------------------------------------".center(45))
+    print("Switch Configured Successfully!".center(45))
+    print("---------------------------------------------".center(45))
+
+def active_reboot_um():
+    print("---------------------------------------------".center(45))
+    print("Setting backup as active and rebooting.".center(45))
+    print("---------------------------------------------".center(45))
+
+def updating_firmware_um():
+    print("---------------------------------------------".center(45))
+    print("Updating switch firmware...".center(45))
+    print("---------------------------------------------".center(45))
+
 def default_login():
     tn.expect(":")
     tn.sendline(creds)
