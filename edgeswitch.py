@@ -20,7 +20,6 @@ new_pass = "ChangeMe123"
 priv = " level 15"
 unms_key = "YourKeyHere"
 def_tn = pexpect.spawn("telnet " + switch)
-new_tn = pexpect.spawn("telnet " + switch)
 
 # Functions
 def configuring_um():
@@ -111,6 +110,7 @@ def switch8():
     def_tn.sendline("exit")
     def_tn.expect(">")
     def_tn.sendline("exit")
+    new_tn = pexpect.spawn("telnet " + switch)
     new_login()
     new_tn.sendline("no username ubnt")
     #new_tn.expect("#")
@@ -136,6 +136,7 @@ def switch16():
     def_tn.sendline("exit")
     def_tn.expect(">")
     def_tn.sendline("exit")
+    new_tn = pexpect.spawn("telnet " + switch)
     new_login()
     new_tn.sendline("no username ubnt")
     #new_tn.expect("#")
@@ -161,6 +162,7 @@ def switch24():
     def_tn.sendline("exit")
     def_tn.expect(">")
     def_tn.sendline("exit")
+    new_tn = pexpect.spawn("telnet " + switch)
     new_login()
     new_tn.sendline("no username ubnt")
     #new_tn.expect("#")
@@ -186,6 +188,7 @@ def switch48():
     def_tn.sendline("exit")
     def_tn.expect(">")
     def_tn.sendline("exit")
+    new_tn = pexpect.spawn("telnet " + switch)
     new_login()
     new_tn.sendline("no username ubnt")
     #new_tn.expect("#")
@@ -211,6 +214,7 @@ def switch5():
     def_tn.sendline("exit")
     def_tn.expect(">")
     def_tn.sendline("exit")
+    new_tn = pexpect.spawn("telnet " + switch)
     new_login()
     new_tn.sendline("no username ubnt")
     #new_tn.expect("#")
@@ -236,6 +240,7 @@ def switch10():
     def_tn.sendline("exit")
     def_tn.expect(">")
     def_tn.sendline("exit")
+    new_tn = pexpect.spawn("telnet " + switch)
     new_login()
     new_tn.sendline("no username ubnt")
     #new_tn.expect("#")
@@ -261,6 +266,7 @@ def switch12():
     def_tn.sendline("exit")
     def_tn.expect(">")
     def_tn.sendline("exit")
+    new_tn = pexpect.spawn("telnet " + switch)
     new_login()
     new_tn.sendline("no username ubnt")
     #new_tn.expect("#")
@@ -286,6 +292,7 @@ def switchS16():
     def_tn.sendline("exit")
     def_tn.expect(">")
     def_tn.sendline("exit")
+    new_tn = pexpect.spawn("telnet " + switch)
     new_login()
     new_tn.sendline("no username ubnt")
     #new_tn.expect("#")
@@ -311,6 +318,7 @@ def switch16XG():
     def_tn.sendline("exit")
     def_tn.expect(">")
     def_tn.sendline("exit")
+    new_tn = pexpect.spawn("telnet " + switch)
     new_login()
     new_tn.sendline("no username ubnt")
     #new_tn.expect("#")
@@ -334,25 +342,25 @@ def switch16XG():
 # function from being pushed to an ES-16-XG.
 
 def config():
-    tn.sendline("show version")
-    tn.expect("Serial")
-    if "ES-8" in tn.before:
+    def_tn.sendline("show version")
+    def_tn.expect("Serial")
+    if "ES-8" in def_tn.before:
         switch8()
-    elif "ES-16-XG" in tn.before:
+    elif "ES-16-XG" in def_tn.before:
         switch16XG()
-    elif "ES-16" in tn.before:
+    elif "ES-16" in def_tn.before:
         switch16()
-    elif "ES-24" in tn.before:
+    elif "ES-24" in def_tn.before:
         switch24()
-    elif "ES-48" in tn.before:
+    elif "ES-48" in def_tn.before:
         switch48()
-    elif "ES-5XP" in tn.before:
+    elif "ES-5XP" in def_tn.before:
         switch5()
-    elif "ES-10" in tn.before:
+    elif "ES-10" in def_tn.before:
         switch10()
-    elif "ES-12" in tn.before:
+    elif "ES-12" in def_tn.before:
         switch12()
-    elif "EP-S16" in tn.before:
+    elif "EP-S16" in def_tn.before:
         switchS16()
     else:
         return 26

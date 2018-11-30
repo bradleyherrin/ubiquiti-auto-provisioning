@@ -202,7 +202,7 @@ while pinging:
         # Check switch firmware
         edgeswitch.default_login()
         edgeswitch.firmware_check()
-        if "active  *1.7.4.5075842" in edgeswitch.tn.before:
+        if "active  *1.7.4.5075842" in edgeswitch.def_tn.before:
             # User message
             edgeswitch.configuring_um()
             # Configure switch
@@ -215,7 +215,7 @@ while pinging:
                 # User message
                 edgeswitch.configured_successfully_um()
                 break
-        elif "backup   1.7.4.5075842" in edgeswitch.tn.before:
+        elif "backup   1.7.4.5075842" in edgeswitch.def_tn.before:
             # User message
             edgeswitch.active_reboot_um()
             # Set active and reboot
@@ -226,7 +226,7 @@ while pinging:
             edgeswitch.updating_firmware_um()
             # Update switch firmware
             edgeswitch.update_firmware()
-            if "success" in edgeswitch.tn.before:
+            if "success" in edgeswitch.def_tn.before:
                 print(trans_success)
                 # User message
                 edgeswitch.active_reboot_um()

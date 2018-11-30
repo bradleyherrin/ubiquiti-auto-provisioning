@@ -23,7 +23,6 @@ new_user = "ChangeMe123"
 new_pass = "ChangeMe123"
 unms_key = "YourKeyHere"
 def_ssh = pexpect.spawn("ssh " + creds + "@" + router)
-new_ssh = pexpect.spawn("ssh " + new_user + "@" + router)
 under_construction = "Router Configuration Under Construction"
 
 # Functions
@@ -109,42 +108,55 @@ def set_active_reboot():
 # check for the router model.
 
 def er_x_config():
+    #new_ssh = pexpect.spawn("ssh " + new_user + "@" + router)
     print(under_construction)
 
 def er_x_sfp_config():
+    #new_ssh = pexpect.spawn("ssh " + new_user + "@" + router)
     print(under_construction)
 
 def er_10x_config():
+    #new_ssh = pexpect.spawn("ssh " + new_user + "@" + router)
     print(under_construction)
 
 def ep_r6_config():
+    #new_ssh = pexpect.spawn("ssh " + new_user + "@" + router)
     print(under_construction)
 
 def erlite_3_config():
+    #new_ssh = pexpect.spawn("ssh " + new_user + "@" + router)
     print(under_construction)
 
 def erpoe_5_config():
+    #new_ssh = pexpect.spawn("ssh " + new_user + "@" + router)
     print(under_construction)
 
 def er_8_config():
+    #new_ssh = pexpect.spawn("ssh " + new_user + "@" + router)
     print(under_construction)
 
 def er_pro8_config():
+    #new_ssh = pexpect.spawn("ssh " + new_user + "@" + router)
     print(under_construction)
 
 def ep_r8_config():
+    #new_ssh = pexpect.spawn("ssh " + new_user + "@" + router)
     print(under_construction)
 
 def er_4_config():
+    #new_ssh = pexpect.spawn("ssh " + new_user + "@" + router)
     print(under_construction)
 
 def er_6p_config():
+    #new_ssh = pexpect.spawn("ssh " + new_user + "@" + router)
     print(under_construction)
 
 def er_12_config():
+    #new_ssh = pexpect.spawn("ssh " + new_user + "@" + router)
     print(under_construction)
 
 def er_infinity_config():
+    #new_ssh = pexpect.spawn("ssh " + new_user + "@" + router)
     print(under_construction)
 
 # Here is the logic that will check for which config to serve.
