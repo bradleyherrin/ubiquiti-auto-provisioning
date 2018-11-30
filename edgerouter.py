@@ -11,8 +11,8 @@ import pexpect
 
 # Variables
 router = "192.168.1.1"
-tftp = "add system image tftp://" + linux_pc + "/"
 linux_pc = "192.168.1.199"
+tftp = "add system image tftp://" + linux_pc + "/"
 e50firmware = "ER-e50.v1.10.8.5142457.tar"
 e100firmware = "ER-e100.v1.10.8.5142440.tar"
 e200firmware = "ER-e200.v1.10.8.5142441.tar"
@@ -24,8 +24,7 @@ new_pass = "ChangeMe123"
 unms_key = "YourKeyHere"
 def_ssh = pexpect.spawn("ssh " + creds + "@" + router)
 new_ssh = pexpect.spawn("ssh " + new_user + "@" + router)
-under_construction = print("Router Configuration Under Construction")
-
+under_construction = "Router Configuration Under Construction"
 
 # Functions
 def configuring_um():
@@ -110,43 +109,43 @@ def set_active_reboot():
 # check for the router model.
 
 def er_x_config():
-    under_construction
+    print(under_construction)
 
 def er_x_sfp_config():
-    under_construction
+    print(under_construction)
 
 def er_10x_config():
-    under_construction
+    print(under_construction)
 
 def ep_r6_config():
-    under_construction
+    print(under_construction)
 
 def erlite_3_config():
-    under_construction
+    print(under_construction)
 
 def erpoe_5_config():
-    under_construction
+    print(under_construction)
 
 def er_8_config():
-    under_construction
+    print(under_construction)
 
 def er_pro8_config():
-    under_construction
+    print(under_construction)
 
 def ep_r8_config():
-    under_construction
+    print(under_construction)
 
 def er_4_config():
-    under_construction
+    print(under_construction)
 
 def er_6p_config():
-    under_construction
+    print(under_construction)
 
 def er_12_config():
-    under_construction
+    print(under_construction)
 
 def er_infinity_config():
-    under_construction
+    print(under_construction)
 
 # Here is the logic that will check for which config to serve.
 # Keep in mind that the order is important. For example, the
@@ -168,7 +167,7 @@ def config():
         ep_r6_config()
     elif "EdgeRouter Lite" in def_ssh.before:
         erlite_3_config()
-    elif "EdgeRouter PoE" in in def_ssh.before:
+    elif "EdgeRouter PoE" in def_ssh.before:
         erpoe_5_config()
     elif "EdgeRouter Pro" in def_ssh.before:
         er_pro8_config()

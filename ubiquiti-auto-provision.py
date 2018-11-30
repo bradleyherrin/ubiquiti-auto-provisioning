@@ -30,7 +30,7 @@ er_6p = "EdgeRouter 6P"
 er_12 = "EdgeRouter 12"
 er_8_xg = "EdgeRouter Infinity"
 run_boot = "(running image) (default boot)"
-trans_success = "File transfer operation completed successfully.\n".center(45))
+trans_success = "File transfer operation completed successfully.\n".center(45)
 
 # Welcome message
 print("---------------------------------------------".center(45))
