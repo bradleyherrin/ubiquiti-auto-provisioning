@@ -30,6 +30,7 @@ er_6p = "EdgeRouter 6P"
 er_12 = "EdgeRouter 12"
 er_8_xg = "EdgeRouter Infinity"
 run_boot = "(running image) (default boot)"
+trans_success = "File transfer operation completed successfully.\n".center(45))
 
 # Welcome message
 print("---------------------------------------------".center(45))
@@ -65,7 +66,7 @@ while pinging:
                 # Update router firmware
                 edgerouter.e50_fw_update()
                 if "success" in edgerouter.def_ssh.before:
-                    print("File transfer operation completed successfully.\n".center(45))
+                    print(trans_success)
                     # User message
                     edgerouter.active_reboot_um()
                     # Set active and reboot
@@ -95,7 +96,7 @@ while pinging:
                 # Update router firmware
                 edgerouter.e100_fw_update()
                 if "success" in edgerouter.def_ssh.before:
-                    print("File transfer operation completed successfully.\n".center(45))
+                    print(trans_success)
                     # User message
                     edgerouter.active_reboot_um()
                     # Set active and reboot
@@ -125,7 +126,7 @@ while pinging:
                 # Update router firmware
                 edgerouter.e200_fw_update()
                 if "success" in edgerouter.def_ssh.before:
-                    print("File transfer operation completed successfully.\n".center(45))
+                    print(trans_success)
                     # User message
                     edgerouter.active_reboot_um()
                     # Set active and reboot
@@ -155,7 +156,7 @@ while pinging:
                 # Update router firmware
                 edgerouter.e300_fw_update()
                 if "success" in edgerouter.def_ssh.before:
-                    print("File transfer operation completed successfully.\n".center(45))
+                    print(trans_success)
                     # User message
                     edgerouter.active_reboot_um()
                     # Set active and reboot
@@ -185,7 +186,7 @@ while pinging:
                 # Update router firmware
                 edgerouter.e1000_fw_update()
                 if "success" in edgerouter.def_ssh.before:
-                    print("File transfer operation completed successfully.\n".center(45))
+                    print(trans_success)
                     # User message
                     edgerouter.active_reboot_um()
                     # Set active and reboot
@@ -226,7 +227,7 @@ while pinging:
             # Update switch firmware
             edgeswitch.update_firmware()
             if "success" in edgeswitch.tn.before:
-                print("File transfer operation completed successfully.\n".center(45))
+                print(trans_success)
                 # User message
                 edgeswitch.active_reboot_um()
                 # Set active and reboot
