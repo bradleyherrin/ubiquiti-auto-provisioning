@@ -199,9 +199,11 @@ while pinging:
             edgerouter.model_not_found_um()
             break
     elif subprocess.call(ping+edgeswitch.switch+ping_match, shell=True) == 0:
-        # Check switch firmware
+        # Login to switch with Telnet
         edgeswitch.default_login()
+        # Add new user
         edgeswitch.add_new_user()
+        # Check switch firmware
         edgeswitch.firmware_check()
         if "active  *1.7.4.5075842" in edgeswitch.tn.before:
             # User message
