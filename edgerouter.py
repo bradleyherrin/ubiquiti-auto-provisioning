@@ -22,7 +22,8 @@ creds = "ubnt"
 new_user = "ChangeMe123"
 new_pass = "ChangeMe123"
 unms_key = "YourKeyHere"
-def_ssh = pexpect.spawn("ssh " + creds + "@" + router)
+ssh1 = pexpect.spawn("ssh " + creds + "@" + router)
+ssh2 = pexpect.spawn("ssh " + new_user + "@" + router)
 under_construction = "Router Configuration Under Construction"
 
 # Functions
@@ -53,51 +54,51 @@ def updating_firmware_um():
     print("---------------------------------------------".center(45))
 
 def default_login():
-    def_ssh.expect(":")
-    def_ssh.sendline(creds)
-    def_ssh.expect("$")
+    ssh1.expect("password:")
+    ssh1.sendline(creds)
+    ssh1.expect("$")
 
 def new_login():
-    new_ssh.expect(":")
+    new_ssh.expect("password:")
     new_ssh.sendline(new_pass)
     new_ssh.expect("$")
     new_ssh.sendline("configure")
     new_ssh.expect("#")
 
 def firmware_check():
-    def_ssh.sendline("show system image")
-    def_ssh.expect("(running image) (default boot)")
+    ssh1.sendline("show system image")
+    ssh1.expect("(running image) (default boot)")
 
 def version_check():
-    def_ssh.sendline("show version")
-    def_ssh.expect("HW S/N")
+    ssh1.sendline("show version")
+    ssh1.expect("HW S/N")
 
 def e50_fw_update():
-    def_ssh.sendline(tftp + e50firmware)
-    def_ssh.expect("")
+    ssh1.sendline(tftp + e50firmware)
+    ssh1.expect("")
 
 def e100_fw_update():
-    def_ssh.sendline(tftp + e100firmware)
-    def_ssh.expect("")
+    ssh1.sendline(tftp + e100firmware)
+    ssh1.expect("")
 
 def e200_fw_update():
-    def_ssh.sendline(tftp + e200firmware)
-    def_ssh.expect("")
+    ssh1.sendline(tftp + e200firmware)
+    ssh1.expect("")
 
 def e300_fw_update():
-    def_ssh.sendline(tftp + e300firmware)
-    def_ssh.expect("")
+    ssh1.sendline(tftp + e300firmware)
+    ssh1.expect("")
 
 def e1000_fw_update():
-    def_ssh.sendline(tftp + e1000firmware)
-    def_ssh.expect("")
+    ssh1.sendline(tftp + e1000firmware)
+    ssh1.expect("")
 
 def set_active_reboot():
-    def_ssh.sendline("set system image default-boot")
-    def_ssh.expect("$")
-    def_ssh.sendline("reboot")
-    def_ssh.expect("[confirm]")
-    def_ssh.sendline("y")
+    ssh1.sendline("set system image default-boot")
+    ssh1.expect("$")
+    ssh1.sendline("reboot")
+    ssh1.expect("[confirm]")
+    ssh1.sendline("y")
 
 # Use this section to build your own
 # configs. Currently all these provide
@@ -169,31 +170,31 @@ def er_infinity_config():
 
 def config():
     version_check()
-    if "EdgeRouter X" in def_ssh.before:
+    if "EdgeRouter X" in ssh1.before:
         er_x_config()
-    elif "EdgeRouter X SFP" in def_ssh.before:
+    elif "EdgeRouter X SFP" in ssh1.before:
         er_x_sfp_config()
-    elif "EdgeRouter 10X" in def_ssh.before:
+    elif "EdgeRouter 10X" in ssh1.before:
         er_10x_config()
-    elif "EdgePoint Router 6" in def_ssh.before:
+    elif "EdgePoint Router 6" in ssh1.before:
         ep_r6_config()
-    elif "EdgeRouter Lite" in def_ssh.before:
+    elif "EdgeRouter Lite" in ssh1.before:
         erlite_3_config()
-    elif "EdgeRouter PoE" in def_ssh.before:
+    elif "EdgeRouter PoE" in ssh1.before:
         erpoe_5_config()
-    elif "EdgeRouter Pro" in def_ssh.before:
+    elif "EdgeRouter Pro" in ssh1.before:
         er_pro8_config()
-    elif "EdgePoint Router 8" in def_ssh.before:
+    elif "EdgePoint Router 8" in ssh1.before:
         ep_r8_config()
-    elif "EdgeRouter 4" in def_ssh.before:
+    elif "EdgeRouter 4" in ssh1.before:
         er_4_config()
-    elif "EdgeRouter 6P" in def_ssh.before:
+    elif "EdgeRouter 6P" in ssh1.before:
         er_6p_config()
-    elif "EdgeRouter 12" in def_ssh.before:
+    elif "EdgeRouter 12" in ssh1.before:
         er_12_config()
-    elif "EdgeRouter Infinity" in def_ssh.before:
+    elif "EdgeRouter Infinity" in ssh1.before:
         er_x_config()
-    elif "EdgeRouter" in def_ssh.before:
+    elif "EdgeRouter" in ssh1.before:
         under_construction
     else:
         return 26

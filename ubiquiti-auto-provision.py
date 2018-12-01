@@ -45,9 +45,9 @@ while pinging:
         # Check router version
         edgerouter.default_login()
         edgerouter.version_check()
-        if er_x or er_x_sfp or er_10x or ep_r6 in edgerouter.def_ssh.before:
+        if er_x or er_x_sfp or er_10x or ep_r6 in edgerouter.ssh1.before:
             edgerouter.firmware_check()
-            if "1.10.8." and run_boot in edgerouter.def_ssh.before:
+            if "1.10.8." and run_boot in edgerouter.ssh1.before:
                 # User message
                 edgerouter.configuring_um()
                 # Configure router
@@ -65,7 +65,7 @@ while pinging:
                 edgerouter.updating_firmware_um()
                 # Update router firmware
                 edgerouter.e50_fw_update()
-                if "success" in edgerouter.def_ssh.before:
+                if "success" in edgerouter.ssh1.before:
                     print(trans_success)
                     # User message
                     edgerouter.active_reboot_um()
@@ -75,9 +75,9 @@ while pinging:
                 else:
                     print("File transfer failed. Please try again.".center(45))
                     break
-        elif erlite_3 or erpoe_5 in edgerouter.def_ssh.before:
+        elif erlite_3 or erpoe_5 in edgerouter.ssh1.before:
             edgerouter.firmware_check()
-            if "1.10.8." and run_boot in edgerouter.def_ssh.before:
+            if "1.10.8." and run_boot in edgerouter.ssh1.before:
                 # User message
                 edgerouter.configuring_um()
                 # Configure router
@@ -95,7 +95,7 @@ while pinging:
                 edgerouter.updating_firmware_um()
                 # Update router firmware
                 edgerouter.e100_fw_update()
-                if "success" in edgerouter.def_ssh.before:
+                if "success" in edgerouter.ssh1.before:
                     print(trans_success)
                     # User message
                     edgerouter.active_reboot_um()
@@ -105,9 +105,9 @@ while pinging:
                 else:
                     print("File transfer failed. Please try again.".center(45))
                     break
-        elif er_pro8 or er_8 or ep_r8 in edgerouter.def_ssh.before:
+        elif er_pro8 or er_8 or ep_r8 in edgerouter.ssh1.before:
             edgerouter.firmware_check()
-            if "1.10.8." and run_boot in edgerouter.def_ssh.before:
+            if "1.10.8." and run_boot in edgerouter.ssh1.before:
                 # User message
                 edgerouter.configuring_um()
                 # Configure router
@@ -125,7 +125,7 @@ while pinging:
                 edgerouter.updating_firmware_um()
                 # Update router firmware
                 edgerouter.e200_fw_update()
-                if "success" in edgerouter.def_ssh.before:
+                if "success" in edgerouter.ssh1.before:
                     print(trans_success)
                     # User message
                     edgerouter.active_reboot_um()
@@ -135,9 +135,9 @@ while pinging:
                 else:
                     print("File transfer failed. Please try again.".center(45))
                     break
-        elif er_4 or er_6p or er_12 in edgerouter.def_ssh.before:
+        elif er_4 or er_6p or er_12 in edgerouter.ssh1.before:
             edgerouter.firmware_check()
-            if "1.10.8." and run_boot in edgerouter.def_ssh.before:
+            if "1.10.8." and run_boot in edgerouter.ssh1.before:
                 # User message
                 edgerouter.configuring_um()
                 # Configure router
@@ -155,7 +155,7 @@ while pinging:
                 edgerouter.updating_firmware_um()
                 # Update router firmware
                 edgerouter.e300_fw_update()
-                if "success" in edgerouter.def_ssh.before:
+                if "success" in edgerouter.ssh1.before:
                     print(trans_success)
                     # User message
                     edgerouter.active_reboot_um()
@@ -165,9 +165,9 @@ while pinging:
                 else:
                     print("File transfer failed. Please try again.".center(45))
                     break
-        elif er_8_xg in edgerouter.def_ssh.before:
+        elif er_8_xg in edgerouter.ssh1.before:
             edgerouter.firmware_check()
-            if "1.10.8." and run_boot in edgerouter.def_ssh.before:
+            if "1.10.8." and run_boot in edgerouter.ssh1.before:
                 # User message
                 edgerouter.configuring_um()
                 # Configure router
@@ -185,7 +185,7 @@ while pinging:
                 edgerouter.updating_firmware_um()
                 # Update router firmware
                 edgerouter.e1000_fw_update()
-                if "success" in edgerouter.def_ssh.before:
+                if "success" in edgerouter.ssh1.before:
                     print(trans_success)
                     # User message
                     edgerouter.active_reboot_um()
@@ -198,11 +198,12 @@ while pinging:
         else:
             edgerouter.model_not_found_um()
             break
-    elif subprocess.call(ping + edgeswitch.switch + ping_match, shell=True) == 0:
+    elif subprocess.call(ping+edgeswitch.switch+ping_match, shell=True) == 0:
         # Check switch firmware
         edgeswitch.default_login()
+        edgeswitch.add_new_user()
         edgeswitch.firmware_check()
-        if "active  *1.7.4.5075842" in edgeswitch.def_tn.before:
+        if "active  *1.7.4.5075842" in edgeswitch.tn.before:
             # User message
             edgeswitch.configuring_um()
             # Configure switch
@@ -215,7 +216,7 @@ while pinging:
                 # User message
                 edgeswitch.configured_successfully_um()
                 break
-        elif "backup   1.7.4.5075842" in edgeswitch.def_tn.before:
+        elif "backup   1.7.4.5075842" in edgeswitch.tn.before:
             # User message
             edgeswitch.active_reboot_um()
             # Set active and reboot
@@ -226,7 +227,7 @@ while pinging:
             edgeswitch.updating_firmware_um()
             # Update switch firmware
             edgeswitch.update_firmware()
-            if "success" in edgeswitch.def_tn.before:
+            if "success" in edgeswitch.tn.before:
                 print(trans_success)
                 # User message
                 edgeswitch.active_reboot_um()
