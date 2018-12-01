@@ -83,7 +83,7 @@ def update_firmware():
     tn.sendline(switch_tftp)
     tn.expect("(y/n)")
     tn.sendline("y")
-    time.sleep(240)
+    time.sleep(300)
     tn.expect("lly.")
 
 def set_active_reboot():
@@ -121,9 +121,11 @@ def config():
         ssh.sendline("vlan database")
         ssh.expect("#")
         ssh.sendline("vlan 10")
+        ssh.expect("#")
+        ssh.sendline("vlan name 10 PYTHON_VLAN")
         ssh.sendline("configure")
         ssh.expect("#")
-        ssh.sendline("no user ubnt")
+        ssh.sendline("no username ubnt")
         ssh.expect("#")
         #ssh.sendline("service unms key" + unms_key)
         #ssh.expect("#")
