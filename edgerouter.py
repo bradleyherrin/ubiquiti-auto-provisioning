@@ -7,7 +7,7 @@
 # https://github.com/bradleyherrin/ubiquiti-auto-provisioning
 
 # Imports
-import pexpect
+import pexpect,time
 
 # Variables
 router = "192.168.1.1"
