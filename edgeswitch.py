@@ -118,18 +118,18 @@ def ssh_add_new_user():
     ssh1.sendline("y")
     ssh1.expect("#")
 
-def firmware_check():
+def ssh_firmware_check():
     ssh1.sendline("show bootvar")
     ssh1.expect("Current")
 
-def update_firmware():
+def ssh_update_firmware():
     ssh1.sendline(switch_tftp)
     ssh1.expect("(y/n)")
     ssh1.sendline("y")
     time.sleep(240)
     ssh1.expect("lly.")
 
-def set_active_reboot():
+def ssh_set_active_reboot():
     ssh1.sendline("boot system backup")
     ssh1.expect("#")
     ssh1.sendline("reload")
