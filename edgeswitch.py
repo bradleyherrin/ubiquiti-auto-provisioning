@@ -57,13 +57,13 @@ def updating_firmware_um():
     print("---------------------------------------------".center(45))
 
 def tn_default_login():
-    tn.expect(":")
+    tn.expect("User:")
     tn.sendline(creds)
-    tn.expect(":")
+    tn.expect("Password:")
     tn.sendline(creds)
     tn.expect(">")
     tn.sendline("enable")
-    tn.expect(":")
+    tn.expect("Password:")
     tn.sendline(creds)
     tn.expect("#")
 

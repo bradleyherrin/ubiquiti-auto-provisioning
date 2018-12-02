@@ -227,6 +227,7 @@ while pinging:
                 # Set active and reboot
                 edgeswitch.ssh_set_active_reboot()
                 time.sleep(180)
+                edgeswitch.ssh1
             else:
                 # User message
                 edgeswitch.updating_firmware_um()
@@ -239,6 +240,7 @@ while pinging:
                     # Set active and reboot
                     edgeswitch.ssh_set_active_reboot()
                     time.sleep(180)
+                    edgeswitch.ssh1
                 else:
                     print("File transfer failed. Please try again.".center(45))
                     break
