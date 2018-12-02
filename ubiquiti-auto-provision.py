@@ -223,7 +223,7 @@ while pinging:
                     break
             elif "backup   1.7.4.5075842" in edgeswitch.ssh1.before:
                 # User message
-                edgeswitch.ssh_active_reboot_um()
+                edgeswitch.active_reboot_um()
                 # Set active and reboot
                 edgeswitch.ssh_set_active_reboot()
                 time.sleep(180)
@@ -264,7 +264,7 @@ while pinging:
                     break
             elif "backup   1.7.4.5075842" in edgeswitch.tn.before:
                 # User message
-                edgeswitch.tn_active_reboot_um()
+                edgeswitch.active_reboot_um()
                 # Set active and reboot
                 edgeswitch.tn_set_active_reboot()
                 time.sleep(180)
