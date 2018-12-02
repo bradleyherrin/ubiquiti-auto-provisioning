@@ -199,46 +199,90 @@ while pinging:
             edgerouter.model_not_found_um()
             break
     elif subprocess.call(ping+edgeswitch.switch+ping_match, shell=True) == 0:
-        # Login to switch with Telnet
-        edgeswitch.default_login()
-        # Add new user
-        edgeswitch.add_new_user()
-        # Check switch firmware
-        edgeswitch.firmware_check()
-        if "active  *1.7.4.5075842" in edgeswitch.tn.before:
-            # User message
-            edgeswitch.configuring_um()
-            # Configure switch
-            edgeswitch.config()
-            if edgeswitch.config() == 26:
+        # Check default access type
+        a_type = pexpect.run("telnet " + edgeswitch.switch)
+        if "Connection refused" in a_type:
+            # Login to switch with SSH
+            edgeswitch.ssh_default_login()
+            # Add new user
+            edgeswitch.ssh_add_new_user()
+            # Check switch firmware
+            edgeswitch.ssh_firmware_check()
+            if "active  *1.7.4.5075842" in edgeswitch.tn.before:
                 # User message
-                edgeswitch.model_not_found_um()
-                break
-            else:
-                # User message
-                edgeswitch.configured_successfully_um()
-                break
-        elif "backup   1.7.4.5075842" in edgeswitch.tn.before:
-            # User message
-            edgeswitch.active_reboot_um()
-            # Set active and reboot
-            edgeswitch.set_active_reboot()
-            time.sleep(300)
-        else:
-            # User message
-            edgeswitch.updating_firmware_um()
-            # Update switch firmware
-            edgeswitch.update_firmware()
-            if "success" in edgeswitch.tn.before:
-                print(trans_success)
+                edgeswitch.configuring_um()
+                # Configure switch
+                edgeswitch.config()
+                if edgeswitch.config() == 26:
+                    # User message
+                    edgeswitch.model_not_found_um()
+                    break
+                else:
+                    # User message
+                    edgeswitch.configured_successfully_um()
+                    break
+            elif "backup   1.7.4.5075842" in edgeswitch.tn.before:
                 # User message
                 edgeswitch.active_reboot_um()
                 # Set active and reboot
                 edgeswitch.set_active_reboot()
-                time.sleep(300)
+                time.sleep(180)
             else:
-                print("File transfer failed. Please try again.".center(45))
-                break
+                # User message
+                edgeswitch.updating_firmware_um()
+                # Update switch firmware
+                edgeswitch.update_firmware()
+                if "success" in edgeswitch.tn.before:
+                    print(trans_success)
+                    # User message
+                    edgeswitch.active_reboot_um()
+                    # Set active and reboot
+                    edgeswitch.set_active_reboot()
+                    time.sleep(180)
+                else:
+                    print("File transfer failed. Please try again.".center(45))
+                    break
+        else: 
+            # Login to switch with Telnet
+            edgeswitch.tn_default_login()
+            # Add new user
+            edgeswitch.tn_add_new_user()
+            # Check switch firmware
+            edgeswitch.tn_firmware_check()
+            if "active  *1.7.4.5075842" in edgeswitch.tn.before:
+                # User message
+                edgeswitch.configuring_um()
+                # Configure switch
+                edgeswitch.config()
+                if edgeswitch.config() == 26:
+                    # User message
+                    edgeswitch.model_not_found_um()
+                    break
+                else:
+                    # User message
+                    edgeswitch.configured_successfully_um()
+                    break
+            elif "backup   1.7.4.5075842" in edgeswitch.tn.before:
+                # User message
+                edgeswitch.active_reboot_um()
+                # Set active and reboot
+                edgeswitch.set_active_reboot()
+                time.sleep(180)
+            else:
+                # User message
+                edgeswitch.updating_firmware_um()
+                # Update switch firmware
+                edgeswitch.update_firmware()
+                if "success" in edgeswitch.tn.before:
+                    print(trans_success)
+                    # User message
+                    edgeswitch.active_reboot_um()
+                    # Set active and reboot
+                    edgeswitch.set_active_reboot()
+                    time.sleep(180)
+                else:
+                    print("File transfer failed. Please try again.".center(45))
+                    break
     else:
         # No devices found
         print('No devices found.')
