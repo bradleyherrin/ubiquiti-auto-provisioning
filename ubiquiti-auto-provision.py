@@ -212,7 +212,7 @@ while pinging:
             edgeswitch.ssh_add_new_user()
             # Check switch firmware
             edgeswitch.ssh_firmware_check()
-            if "active  *1.7.4.5075842" in edgeswitch.ssh1.before:
+            if "active  *1.8.0.5106045" in edgeswitch.ssh1.before:
                 # User message
                 edgeswitch.configuring_um()
                 # Configure switch
@@ -225,7 +225,7 @@ while pinging:
                     # User message
                     edgeswitch.configured_successfully_um()
                     break
-            elif "backup   1.7.4.5075842" in edgeswitch.ssh1.before:
+            elif "backup   1.8.0.5106045" in edgeswitch.ssh1.before:
                 # User message
                 edgeswitch.active_reboot_um()
                 # Set active and reboot
