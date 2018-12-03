@@ -7,7 +7,8 @@
 # https://github.com/bradleyherrin/ubiquiti-auto-provisioning
 
 # Imports
-import pexpect,time
+import pexpect
+import time
 
 # Variables
 linux_pc = "192.168.1.199"
@@ -26,35 +27,43 @@ tn = pexpect.spawn("telnet " + switch)
 ssh1 = pexpect.spawn("ssh " + creds + "@" + switch)
 
 # Functions
+
+
 def configuring_um():
     print("---------------------------------------------".center(45))
     print("Configuring Switch".center(45))
     print("---------------------------------------------".center(45))
+
 
 def new_user_um():
     print("---------------------------------------------".center(45))
     print("Adding new user to switch".center(45))
     print("---------------------------------------------".center(45))
 
+
 def model_not_found_um():
     print("---------------------------------------------".center(45))
     print("Switch model not found. Switch was not configured.").center(45)
     print("---------------------------------------------".center(45))
+
 
 def configured_successfully_um():
     print("---------------------------------------------".center(45))
     print("Switch Configured Successfully!".center(45))
     print("---------------------------------------------".center(45))
 
+
 def active_reboot_um():
     print("---------------------------------------------".center(45))
     print("Setting backup as active and rebooting.".center(45))
     print("---------------------------------------------".center(45))
 
+
 def updating_firmware_um():
     print("---------------------------------------------".center(45))
     print("Updating switch firmware...".center(45))
     print("---------------------------------------------".center(45))
+
 
 def tn_default_login():
     tn.expect("User:")
@@ -66,6 +75,7 @@ def tn_default_login():
     tn.expect("Password:")
     tn.sendline(creds)
     tn.expect("#")
+
 
 def tn_add_new_user():
     tn.sendline("configure")
@@ -83,12 +93,14 @@ def tn_firmware_check():
     tn.sendline("show bootvar")
     tn.expect("Current")
 
+
 def tn_update_firmware():
-    tn.sendline(switch_tftp)
+    tn.sendline(tftp)
     tn.expect("(y/n)")
     tn.sendline("y")
     time.sleep(240)
     tn.expect("lly.")
+
 
 def tn_set_active_reboot():
     tn.sendline("boot system backup")
@@ -96,6 +108,7 @@ def tn_set_active_reboot():
     tn.sendline("reload")
     tn.expect("(y/n)")
     tn.sendline("y")
+
 
 def ssh_default_login():
     ssh1.expect("password:")
@@ -105,6 +118,7 @@ def ssh_default_login():
     ssh1.expect("Password:")
     ssh1.sendline(creds)
     ssh1.expect("#")
+
 
 def ssh_add_new_user():
     ssh1.sendline("configure")
@@ -118,16 +132,19 @@ def ssh_add_new_user():
     ssh1.sendline("y")
     ssh1.expect("#")
 
+
 def ssh_firmware_check():
     ssh1.sendline("show bootvar")
     ssh1.expect("Current")
 
+
 def ssh_update_firmware():
-    ssh1.sendline(switch_tftp)
+    ssh1.sendline(tftp)
     ssh1.expect("(y/n)")
     ssh1.sendline("y")
     time.sleep(240)
     ssh1.expect("lly.")
+
 
 def ssh_set_active_reboot():
     ssh1.sendline("boot system backup")
@@ -147,6 +164,7 @@ def ssh_set_active_reboot():
 # each model you need to provision. Scroll
 # down to see the logic used to check for the
 # switch model.
+
 
 def config():
     ssh2 = pexpect.spawn("ssh " + new_user + "@" + switch)
@@ -169,10 +187,10 @@ def config():
         ssh2.expect("#")
         ssh2.sendline("no username ubnt")
         ssh2.expect("#")
-        #ssh2.sendline("service unms key" + unms_key)
-        #ssh2.expect("#")
-        #ssh2.sendline("service unms")
-        #ssh2.expect("#")
+        # ssh2.sendline("service unms key" + unms_key)
+        # ssh2.expect("#")
+        # ssh2.sendline("service unms")
+        # ssh2.expect("#")
         ssh2.sendline("exit")
         ssh2.expect("#")
         ssh2.sendline("write memory")
@@ -190,10 +208,10 @@ def config():
         ssh2.expect("#")
         ssh2.sendline("no user ubnt")
         ssh2.expect("#")
-        #ssh2.sendline("service unms key" + unms_key)
-        #ssh2.expect("#")
-        #ssh2.sendline("service unms")
-        #ssh2.expect("#")
+        # ssh2.sendline("service unms key" + unms_key)
+        # ssh2.expect("#")
+        # ssh2.sendline("service unms")
+        # ssh2.expect("#")
         ssh2.sendline("exit")
         ssh2.expect("#")
         ssh2.sendline("write memory")
@@ -211,10 +229,10 @@ def config():
         ssh2.expect("#")
         ssh2.sendline("no user ubnt")
         ssh2.expect("#")
-        #ssh2.sendline("service unms key" + unms_key)
-        #ssh2.expect("#")
-        #ssh2.sendline("service unms")
-        #ssh2.expect("#")
+        # ssh2.sendline("service unms key" + unms_key)
+        # ssh2.expect("#")
+        # ssh2.sendline("service unms")
+        # ssh2.expect("#")
         ssh2.sendline("exit")
         ssh2.expect("#")
         ssh2.sendline("write memory")
@@ -232,10 +250,10 @@ def config():
         ssh2.expect("#")
         ssh2.sendline("no user ubnt")
         ssh2.expect("#")
-        #ssh2.sendline("service unms key" + unms_key)
-        #ssh2.expect("#")
-        #ssh2.sendline("service unms")
-        #ssh2.expect("#")
+        # ssh2.sendline("service unms key" + unms_key)
+        # ssh2.expect("#")
+        # ssh2.sendline("service unms")
+        # ssh2.expect("#")
         ssh2.sendline("exit")
         ssh2.expect("#")
         ssh2.sendline("write memory")
@@ -253,10 +271,10 @@ def config():
         ssh2.expect("#")
         ssh2.sendline("no user ubnt")
         ssh2.expect("#")
-        #ssh2.sendline("service unms key" + unms_key)
-        #ssh2.expect("#")
-        #ssh2.sendline("service unms")
-        #ssh2.expect("#")
+        # ssh2.sendline("service unms key" + unms_key)
+        # ssh2.expect("#")
+        # ssh2.sendline("service unms")
+        # ssh2.expect("#")
         ssh2.sendline("exit")
         ssh2.expect("#")
         ssh2.sendline("write memory")
@@ -274,10 +292,10 @@ def config():
         ssh2.expect("#")
         ssh2.sendline("no user ubnt")
         ssh2.expect("#")
-        #ssh2.sendline("service unms key" + unms_key)
-        #ssh2.expect("#")
-        #ssh2.sendline("service unms")
-        #ssh2.expect("#")
+        # ssh2.sendline("service unms key" + unms_key)
+        # ssh2.expect("#")
+        # ssh2.sendline("service unms")
+        # ssh2.expect("#")
         ssh2.sendline("exit")
         ssh2.expect("#")
         ssh2.sendline("write memory")

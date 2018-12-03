@@ -9,7 +9,11 @@
 # https://github.com/bradleyherrin/ubiquiti-auto-provisioning
 
 # Imports
-import pexpect,subprocess,time,edgeswitch,edgerouter
+import pexpect
+import subprocess
+import time
+import edgeswitch
+import edgerouter
 
 # Variables
 pinging = True
@@ -41,7 +45,7 @@ print("---------------------------------------------".center(45))
 
 # Ping check
 while pinging:
-    if subprocess.call(ping + edgerouter.router + ping_match, shell=True) == 0:
+    if subprocess.call(ping+edgerouter.router+ping_match, shell=True) == 0:
         # Check router version
         edgerouter.default_login()
         edgerouter.version_check()
