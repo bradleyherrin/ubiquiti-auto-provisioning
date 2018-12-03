@@ -89,6 +89,7 @@ def tn_add_new_user():
     tn.sendline("y")
     tn.expect("#")
 
+
 def tn_firmware_check():
     tn.sendline("show bootvar")
     tn.expect("Current")
