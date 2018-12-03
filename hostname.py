@@ -23,7 +23,7 @@ device_num = input(device_num_q1 + device_num_q2 + '\n')
 router_type_q = 'Is this a router? If so, what model '
 router_type_p = '(Leave blank for switch)? '
 router_type = input(router_type_q + router_type_p + '\n')
-hostname_list = [city,company,location,closet,device_num,router_type]
+hostname_list = [city, company, location, closet, device_num, router_type]
 
 # hostname_list cleanup
 if hostname_list.count('') == 3:
