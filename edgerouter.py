@@ -8,7 +8,6 @@
 
 # Imports
 import pexpect
-import time
 
 # Variables
 router = "192.168.1.1"
@@ -24,7 +23,6 @@ new_user = "ChangeMe123"
 new_pass = "ChangeMe123"
 unms_key = "YourKeyHere"
 ssh1 = pexpect.spawn("ssh " + creds + "@" + router)
-ssh2 = pexpect.spawn("ssh " + new_user + "@" + router)
 under_construction = "Router Configuration Under Construction"
 
 # Functions
@@ -67,12 +65,9 @@ def default_login():
     ssh1.expect("$")
 
 
-def new_login():
-    ssh2.expect("password:")
-    ssh2.sendline(new_pass)
-    ssh2.expect("$")
-    ssh2.sendline("configure")
-    ssh2.expect("#")
+def version_check():
+    ssh1.sendline("show version")
+    ssh1.expect("HW S/N")
 
 
 def firmware_check():
@@ -80,14 +75,14 @@ def firmware_check():
     ssh1.expect("(running image) (default boot)")
 
 
-def version_check():
-    ssh1.sendline("show version")
-    ssh1.expect("HW S/N")
-
-
 def e50_fw_update():
+    ssh1.sendline("delete system image")
+    ssh1.expect("(Yes/No)")
+    ssh1.sendline("yes")
+    ssh1.expect("$")
     ssh1.sendline(tftp + e50firmware)
-    ssh1.expect("")
+    ssh1.expect("(Yes/No)")
+    ssh1.sendline("yes")
 
 
 def e100_fw_update():
@@ -200,9 +195,15 @@ def er_infinity_config():
 
 
 def config():
-    version_check()
+    ssh2 = pexpect.spawn("ssh " + new_user + "@" + router)
+    ssh2.expect("password:")
+    ssh2.sendline(new_pass)
+    ssh2.expect("$")
+    ssh2.sendline("show version")
+    ssh2.expect("HW S/N")
     if "EdgeRouter X" in ssh1.before:
-        er_x_config()
+        ssh2.expect("$")
+        ssh2.sendline("configure")
     elif "EdgeRouter X SFP" in ssh1.before:
         er_x_sfp_config()
     elif "EdgeRouter 10X" in ssh1.before:
