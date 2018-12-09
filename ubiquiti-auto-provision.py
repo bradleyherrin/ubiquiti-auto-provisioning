@@ -77,6 +77,7 @@ if subprocess.call(ping + switch + ping_match, shell = True) == 0:
                 edgeswitch.upgrade_failed_um()
         edgeswitch.configuring_um()
         edgeswitch.config(linux_pc, model)
+        edgeswitch.configured_successfully_um()
 else:
     # No devices found
     print('No devices found.')
