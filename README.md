@@ -25,9 +25,15 @@ EdgeMax devices have the following default IPs.
 
 AirMax devices use 192.168.1.20/24 as their default IP.
 
-This means the Linux PC will need to be configured with a static IP on the same 192.168.1.0/24 subnet.
+This means the Linux PC will need to be configured with a static IP on the same 192.168.1.0/24 subnet, or use NAT to source your traffic from 192.168.1.0/24.
 
-After determining device type through ping, the Linux PC will then access the device through either SSH or Telnet and a firmware check will be performed. If a certain version isn't detected The firmware will be updated via a TFTP server running on the same Linux PC. Once the result of the firmware check is equal to the required version, the base configuration will be pushed to the device.
+After determining device type through ping, the Linux PC will then access the device through either SSH or Telnet and a firmware check will be performed. If a certain version isn't detected, the firmware will be updated via a TFTP server running on the same Linux PC. Once the result of the firmware check is equal to the required version, the base configuration will be pushed to the device.
+
+### User Variables
+linux_pc = "192.168.1.254" <-- Set this to the real/NAT IP of your PC initiating the script and hosting the TFTP server.
+hardcoded_switch_version = "" <-- ONLY set this if you don't want the script to intelligently determine the latest firmware version from firmware_path
+firmware_path = "./tftp/firmware" <-- TFTP firmware path. You should only have one firmware file here for a given firmware platform type. Firmware filenames should be in their original form from UBNT.
+config_path = "./tftp/config" <-- TFTP config path. Config files should be named in format found in edgeswitch.py dictionary
 
 ## Compatibility
 
