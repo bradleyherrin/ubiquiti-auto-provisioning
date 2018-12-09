@@ -50,31 +50,29 @@ if subprocess.call(ping + switch + ping_match, shell = True) == 0:
         # Error not supported
         edgeswitch.model_not_found_um()
     else:
+        # Grab switch model
         model = edgeswitch.switch_model()
         edgeswitch.switch_model_um(model)
         firmware = edgeswitch.latest_switch_firmware(hardcoded_switch_version, firmware_path, model)
+        # Check latest firmware for model
         edgeswitch.latest_switch_firmware_um(firmware)
         edgeswitch.firmware_check()
+        # Check if latest firmware already on the switch
         if "active  *" + firmware in edgeswitch.connection.before:
             edgeswitch.no_upgrade_um()
-            # User message
         elif "backup   " + firmware in edgeswitch.connection.before:
-            # User message
             edgeswitch.active_um()
-            # Set active
             edgeswitch.set_active()
         else:
-            # User message
+            # Firmware not on the switch, upgrade
             edgeswitch.updating_firmware_um()
-            # Update switch firmware
             edgeswitch.update_firmware(linux_pc, firmware)
             if "success" in edgeswitch.connection.before:
-                # User message
                 edgeswitch.active_um()
-                # Set active and reboot
                 edgeswitch.set_active()
             else:
                 edgeswitch.upgrade_failed_um()
+        # Configure switch based on model
         edgeswitch.configuring_um()
         edgeswitch.config(linux_pc, model)
         edgeswitch.configured_successfully_um()

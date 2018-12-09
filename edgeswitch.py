@@ -166,7 +166,7 @@ def switch_model():
 
 
 def config(linux_pc, model):
-    connection.sendline("copy tftp://" + linux_pc + "/config" + model + ".cfg nvram:startup-config")
+    connection.sendline("copy tftp://" + linux_pc + "/config/" + model + ".cfg nvram:startup-config")
     connection.expect("(y/n)")
     connection.sendline("y")
     connection.expect("successfully.")
