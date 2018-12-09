@@ -84,12 +84,14 @@ else:
 
 # Edgerouter ping check
 if subprocess.call(ping + router + ping_match, shell = True) == 0:
+    print "Found router"
 else:
     # No devices found
     print('No router devices found.')
 
 # Airmax ping check
 if subprocess.call(ping + airmax + ping_match, shell = True) == 0:
+    print "Found airmax"
 else:
     # No devices found
     print('No AirMax devices found.')
