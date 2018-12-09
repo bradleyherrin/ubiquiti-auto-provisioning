@@ -23,6 +23,8 @@ hardcoded_switch_version = ""
 firmware_path = "./tftp/firmware"
 config_path = "./tftp/config"
 switch = "192.168.1.2"
+airmax = "192.168.1.20"
+router = "192.168.1.1"
 creds = "ubnt"
 
 # Welcome message
@@ -78,4 +80,16 @@ if subprocess.call(ping + switch + ping_match, shell = True) == 0:
         edgeswitch.configured_successfully_um()
 else:
     # No devices found
-    print('No devices found.')
+    print('No switch devices found.')
+
+# Edgerouter ping check
+if subprocess.call(ping + router + ping_match, shell = True) == 0:
+else:
+    # No devices found
+    print('No router devices found.')
+
+# Airmax ping check
+if subprocess.call(ping + airmax + ping_match, shell = True) == 0:
+else:
+    # No devices found
+    print('No AirMax devices found.')
