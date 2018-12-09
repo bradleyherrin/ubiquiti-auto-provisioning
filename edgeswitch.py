@@ -169,7 +169,7 @@ def config(linux_pc, model):
     connection.sendline("copy tftp://" + linux_pc + "/config" + model + ".cfg nvram:startup-config")
     connection.expect("(y/n)")
     connection.sendline("y")
-    connection.expect("#")
+    connection.expect("successfully.")
     connection.sendline("reload")
     connection.expect("(y/n)")
     connection.sendline("y")
