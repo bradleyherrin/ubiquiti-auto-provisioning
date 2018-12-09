@@ -18,7 +18,10 @@ switch_models = {
     'ES-12': {
         'firmware': 'ES-eswh'
     },
-    'ES-16': {
+    'ES-16-150W': {
+        'firmware': 'ES-eswh'
+    },
+    'ES-16-XG': {
         'firmware': 'ES-esgh'
     },
     'ES-24': {
@@ -131,7 +134,7 @@ def firmware_check():
 
 
 def update_firmware(linux_pc, firmware):
-    connection.sendline("copy tftp://" + linux_pc + "/firmware" + firmware + " backup")
+    connection.sendline("copy tftp://" + linux_pc + "/firmware/" + firmware + " backup")
     connection.expect("(y/n)")
     connection.sendline("y")
     time.sleep(240)
