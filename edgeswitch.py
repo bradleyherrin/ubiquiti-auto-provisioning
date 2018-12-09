@@ -6,305 +6,170 @@
 # View the full project on GitHub
 # https://github.com/bradleyherrin/ubiquiti-auto-provisioning
 
-# Imports
 import pexpect
 import time
+connection = ""
 
-# Variables
-linux_pc = "192.168.1.199"
-switch = "192.168.1.2"
-ESfirmware = "ES-eswh.v1.8.0.5106045.stk"
-ESXGfirmware = "ES-esgh.v1.8.0.5106045.stk"
-ESXfirmware = "ESX.1.1.0.bix"
-ESXPfirmware = "SW.v1.4.1.32323.180315.1259.bin"
-tftp = "copy tftp://" + linux_pc + "/" + ESfirmware + " backup"
-creds = "ubnt"
-new_user = "ChangeMe123"
-new_pass = "ChangeMe123"
-priv = " level 15"
-unms_key = "YourKeyHere"
-tn = pexpect.spawn("telnet " + switch)
-ssh1 = pexpect.spawn("ssh " + creds + "@" + switch)
+# Device models dictionary
+switch_models = {
+    'ES-8': {
+        'firmware': 'ES-eswh'
+    },
+    'ES-12': {
+        'firmware': 'ES-eswh'
+    },
+    'ES-16': {
+        'firmware': 'ES-esgh'
+    },
+    'ES-24': {
+        'firmware': 'ES-eswh'
+    },
+    'ES-48': {
+        'firmware': 'ES-eswh'
+    },
+    'EP-S16': {
+        'firmware': 'ES-eswh'
+    }
+}
+
 
 # Functions
-
-
 def configuring_um():
     print("---------------------------------------------".center(45))
-    print("Configuring Switch".center(45))
+    print("Configuring switch...".center(45))
     print("---------------------------------------------".center(45))
 
 
-def new_user_um():
+def found_login_um(login_type):
     print("---------------------------------------------".center(45))
-    print("Adding new user to switch".center(45))
+    print("Found switch, logging in with " + login_type + "...").center(45)
+    print("---------------------------------------------".center(45))
+
+
+def switch_model_um(model):
+    print("---------------------------------------------".center(45))
+    print("Switch model is " + model + ".").center(45)
+    print("---------------------------------------------".center(45))
+
+
+def latest_switch_firmware_um(firmware):
+    print("---------------------------------------------".center(45))
+    print("Latest switch firmware is " + firmware + ".").center(45)
+    print("Checking if upgrade is needed...").center(45)
+    print("---------------------------------------------".center(45))
+
+
+def no_upgrade_um():
+    print("---------------------------------------------".center(45))
+    print("Firmware upgrade not needed.").center(45)
+    print("---------------------------------------------".center(45))
+
+
+def upgrade_failed_um():
+    print("---------------------------------------------".center(45))
+    print("Firmware upgrade failed.").center(45)
     print("---------------------------------------------".center(45))
 
 
 def model_not_found_um():
     print("---------------------------------------------".center(45))
-    print("Switch model not found. Switch was not configured.").center(45)
+    print("Switch model not found.").center(45)
+    print("Switch was not configured.").center(45)
     print("---------------------------------------------".center(45))
 
 
 def configured_successfully_um():
     print("---------------------------------------------".center(45))
-    print("Switch Configured Successfully!".center(45))
+    print("Switch configured successfully!".center(45))
     print("---------------------------------------------".center(45))
 
 
-def active_reboot_um():
+def active_um():
     print("---------------------------------------------".center(45))
-    print("Setting backup as active and rebooting.".center(45))
+    print("Firmware upgraded successfully!").center(45)
+    print("Setting backup as active...".center(45))
     print("---------------------------------------------".center(45))
 
 
 def updating_firmware_um():
     print("---------------------------------------------".center(45))
-    print("Updating switch firmware...".center(45))
+    print("Firmware upgrade needed.").center(45)
+    print("Upgrading switch firmware...").center(45)
     print("---------------------------------------------".center(45))
 
 
-def tn_default_login():
-    tn.expect("User:")
-    tn.sendline(creds)
-    tn.expect("Password:")
-    tn.sendline(creds)
-    tn.expect(">")
-    tn.sendline("enable")
-    tn.expect("Password:")
-    tn.sendline(creds)
-    tn.expect("#")
-
-
-def tn_add_new_user():
-    tn.sendline("configure")
-    tn.expect("#")
-    tn.sendline("username " + new_user + " password " + new_pass + priv)
-    tn.expect("#")
-    tn.sendline("exit")
-    tn.expect("#")
-    tn.sendline("write memory")
-    tn.expect("(y/n)")
-    tn.sendline("y")
-    tn.expect("#")
-
-
-def tn_firmware_check():
-    tn.sendline("show bootvar")
-    tn.expect("Current")
-
-
-def tn_update_firmware():
-    tn.sendline(tftp)
-    tn.expect("(y/n)")
-    tn.sendline("y")
-    time.sleep(240)
-    tn.expect("lly.")
-
-
-def tn_set_active_reboot():
-    tn.sendline("boot system backup")
-    tn.expect("#")
-    tn.sendline("reload")
-    tn.expect("(y/n)")
-    tn.sendline("y")
-
-
-def ssh_default_login():
-    ssh1.expect("password:")
-    ssh1.sendline(creds)
-    ssh1.expect(">")
-    ssh1.sendline("enable")
-    ssh1.expect("Password:")
-    ssh1.sendline(creds)
-    ssh1.expect("#")
-
-
-def ssh_add_new_user():
-    ssh1.sendline("configure")
-    ssh1.expect("#")
-    ssh1.sendline("username " + new_user + " password " + new_pass + priv)
-    ssh1.expect("#")
-    ssh1.sendline("exit")
-    ssh1.expect("#")
-    ssh1.sendline("write memory")
-    ssh1.expect("(y/n)")
-    ssh1.sendline("y")
-    ssh1.expect("#")
-
-
-def ssh_firmware_check():
-    ssh1.sendline("show bootvar")
-    ssh1.expect("Current")
-
-
-def ssh_update_firmware():
-    ssh1.sendline(tftp)
-    ssh1.expect("(y/n)")
-    ssh1.sendline("y")
-    time.sleep(240)
-    ssh1.expect("lly.")
-
-
-def ssh_set_active_reboot():
-    ssh1.sendline("boot system backup")
-    ssh1.expect("#")
-    ssh1.sendline("reload")
-    ssh1.expect("(y/n)")
-    ssh1.sendline("y")
-
-# Use this section to build your own configs
-# using tn.sendline and tn.expect. Currently
-# all this does is add a new vlan, remove
-# the default user "ubnt", and enable UNMS.
-# Make sure to add your key to the unms_key
-# variable and uncomment the lines in the
-# switch config. The idea for this file is
-# is that you would build out configs for
-# each model you need to provision. Scroll
-# down to see the logic used to check for the
-# switch model.
-
-
-def config():
-    ssh2 = pexpect.spawn("ssh " + new_user + "@" + switch)
-    ssh2.expect("password:")
-    ssh2.sendline(new_pass)
-    ssh2.expect(">")
-    ssh2.sendline("enable")
-    ssh2.expect("Password:")
-    ssh2.sendline(new_pass)
-    ssh2.expect("#")
-    ssh2.sendline("show version")
-    ssh2.expect("Serial")
-    if "ES-8" in ssh2.before:
-        ssh2.sendline("vlan database")
-        ssh2.expect("#")
-        ssh2.sendline("vlan 10")
-        ssh2.expect("#")
-        ssh2.sendline("vlan name 10 PYTHON_VLAN")
-        ssh2.sendline("configure")
-        ssh2.expect("#")
-        ssh2.sendline("no username ubnt")
-        ssh2.expect("#")
-        # ssh2.sendline("service unms key" + unms_key)
-        # ssh2.expect("#")
-        # ssh2.sendline("service unms")
-        # ssh2.expect("#")
-        ssh2.sendline("exit")
-        ssh2.expect("#")
-        ssh2.sendline("write memory")
-        ssh2.expect("(y/n)")
-        ssh2.sendline("y")
-        ssh2.expect("#")
-        ssh2.sendline("exit")
-        ssh2.expect(">")
-        ssh2.sendline("exit")
-    elif "ES-16" in ssh2.before:
-        ssh2.sendline("vlan database")
-        ssh2.expect("#")
-        ssh2.sendline("vlan 10")
-        ssh2.sendline("configure")
-        ssh2.expect("#")
-        ssh2.sendline("no user ubnt")
-        ssh2.expect("#")
-        # ssh2.sendline("service unms key" + unms_key)
-        # ssh2.expect("#")
-        # ssh2.sendline("service unms")
-        # ssh2.expect("#")
-        ssh2.sendline("exit")
-        ssh2.expect("#")
-        ssh2.sendline("write memory")
-        ssh2.expect("(y/n)")
-        ssh2.sendline("y")
-        ssh2.expect("#")
-        ssh2.sendline("exit")
-        ssh2.expect(">")
-        ssh2.sendline("exit")
-    elif "ES-24" in ssh2.before:
-        ssh2.sendline("vlan database")
-        ssh2.expect("#")
-        ssh2.sendline("vlan 10")
-        ssh2.sendline("configure")
-        ssh2.expect("#")
-        ssh2.sendline("no user ubnt")
-        ssh2.expect("#")
-        # ssh2.sendline("service unms key" + unms_key)
-        # ssh2.expect("#")
-        # ssh2.sendline("service unms")
-        # ssh2.expect("#")
-        ssh2.sendline("exit")
-        ssh2.expect("#")
-        ssh2.sendline("write memory")
-        ssh2.expect("(y/n)")
-        ssh2.sendline("y")
-        ssh2.expect("#")
-        ssh2.sendline("exit")
-        ssh2.expect(">")
-        ssh2.sendline("exit")
-    elif "ES-48" in ssh2.before:
-        ssh2.sendline("vlan database")
-        ssh2.expect("#")
-        ssh2.sendline("vlan 10")
-        ssh2.sendline("configure")
-        ssh2.expect("#")
-        ssh2.sendline("no user ubnt")
-        ssh2.expect("#")
-        # ssh2.sendline("service unms key" + unms_key)
-        # ssh2.expect("#")
-        # ssh2.sendline("service unms")
-        # ssh2.expect("#")
-        ssh2.sendline("exit")
-        ssh2.expect("#")
-        ssh2.sendline("write memory")
-        ssh2.expect("(y/n)")
-        ssh2.sendline("y")
-        ssh2.expect("#")
-        ssh2.sendline("exit")
-        ssh2.expect(">")
-        ssh2.sendline("exit")
-    elif "ES-12" in ssh2.before:
-        ssh2.sendline("vlan database")
-        ssh2.expect("#")
-        ssh2.sendline("vlan 10")
-        ssh2.sendline("configure")
-        ssh2.expect("#")
-        ssh2.sendline("no user ubnt")
-        ssh2.expect("#")
-        # ssh2.sendline("service unms key" + unms_key)
-        # ssh2.expect("#")
-        # ssh2.sendline("service unms")
-        # ssh2.expect("#")
-        ssh2.sendline("exit")
-        ssh2.expect("#")
-        ssh2.sendline("write memory")
-        ssh2.expect("(y/n)")
-        ssh2.sendline("y")
-        ssh2.expect("#")
-        ssh2.sendline("exit")
-        ssh2.expect(">")
-        ssh2.sendline("exit")
-    elif "EP-S16" in ssh2.before:
-        ssh2.sendline("vlan database")
-        ssh2.expect("#")
-        ssh2.sendline("vlan 10")
-        ssh2.sendline("configure")
-        ssh2.expect("#")
-        ssh2.sendline("no user ubnt")
-        ssh2.expect("#")
-        # ssh2.sendline("service unms key" + unms_key)
-        # ssh2.expect("#")
-        # ssh2.sendline("service unms")
-        # ssh2.expect("#")
-        ssh2.sendline("exit")
-        ssh2.expect("#")
-        ssh2.sendline("write memory")
-        ssh2.expect("(y/n)")
-        ssh2.sendline("y")
-        ssh2.expect("#")
-        ssh2.sendline("exit")
-        ssh2.expect(">")
-        ssh2.sendline("exit")
+def default_login(telnet_connection, creds, switch):
+    global connection
+    if telnet_connection:
+        connection = pexpect.spawn("ssh " + creds + "@" + switch)
+        connection.expect("User:")
+        connection.sendline(creds)
+        connection.expect("Password:")
+        connection.sendline(creds)
+        connection.expect(">")
+        connection.sendline("enable")
+        connection.expect("Password:")
+        connection.sendline(creds)
+        connection.expect("#")
     else:
-        return 26
+        pexpect.run("ssh-keygen -R " + switch + " >& /dev/null")
+        connection = pexpect.spawn("ssh " + creds + "@" + switch)
+        connection.expect("(yes/no)?")
+        connection.sendline("yes")
+        connection.expect("password: ")
+        connection.sendline(creds)
+        connection.expect(">")
+        connection.sendline("enable")
+        connection.expect("Password:")
+        connection.sendline(creds)
+        connection.expect("#")
+
+
+def firmware_check():
+    connection.sendline("show bootvar")
+    connection.expect("Current")
+
+
+def update_firmware(linux_pc, firmware):
+    connection.sendline("copy tftp://" + linux_pc + "/firmware" + firmware + " backup")
+    connection.expect("(y/n)")
+    connection.sendline("y")
+    time.sleep(240)
+    connection.expect("lly.")
+
+
+def set_active():
+    connection.sendline("boot system backup")
+    connection.expect("#")
+
+
+def latest_switch_firmware(hardcoded_switch_version, firmware_path, model):
+    connection.sendline("show version")
+    connection.expect("Serial")
+    firmware = switch_models.get(model, {}).get('firmware')
+    if firmware_path and not hardcoded_switch_version:
+        firmware_files = pexpect.run("find " + firmware_path + " -printf '%f\n' | grep stk | grep " + firmware)
+        split_version = firmware_files.rsplit(firmware)
+        switch_version = split_version.split('.stk')
+        return switch_version
+    else:
+        return hardcoded_switch_version
+
+
+def switch_model():
+    connection.sendline("show version")
+    connection.expect("Serial")
+    for model in switch_models:
+        if model in connection.before:
+            return model
+    return 26
+
+
+def config(linux_pc, model):
+    connection.sendline("copy tftp://" + linux_pc + "/config" + model + ".cfg nvram:startup-config")
+    connection.expect("(y/n)")
+    connection.sendline("y")
+    connection.expect("#")
+    connection.sendline("reload")
+    connection.expect("(y/n)")
+    connection.sendline("y")
