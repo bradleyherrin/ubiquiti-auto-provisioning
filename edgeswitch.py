@@ -104,7 +104,7 @@ def updating_firmware_um():
 def default_login(telnet_connection, creds, switch):
     global connection
     if telnet_connection == True:
-        connection = pexpect.spawn("telnet " + creds + "@" + switch)
+        connection = pexpect.spawn("telnet " + switch)
         connection.expect("User:")
         connection.sendline(creds)
         connection.expect("Password:")
