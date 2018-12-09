@@ -149,9 +149,9 @@ def latest_switch_firmware(hardcoded_switch_version, firmware_path, model):
     firmware = switch_models.get(model, {}).get('firmware')
     if firmware_path and not hardcoded_switch_version:
         firmware_file = pexpect.run("find " + firmware_path + " -name '*" + firmware + "*' -printf '%f\n'")
-        split_version = firmware_file.rsplit(firmware)
+        split_version = firmware_file.rsplit(firmware + ".v")
         print split_version
-        switch_version = split_version[0].split('.stk')
+        switch_version = split_version[1].split('.stk')
         print switch_version
         return switch_version
     else:
