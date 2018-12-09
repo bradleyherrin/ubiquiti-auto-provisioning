@@ -13,17 +13,18 @@ import pexpect
 import subprocess
 import edgeswitch
 import edgerouter
+import airmax
 
 # Variables
 ping = "ping -c 5 "
-ping_match = " | grep -c 'bytes from' | grep 5 >/dev/null"
+ping_match = " | grep -c 'ttl=' | grep 5 >/dev/null"
 linux_pc = "192.168.1.254"
 # Set the below variable only if you want to override the switch firmware version learned in the firmware_path
 hardcoded_switch_version = ""
 firmware_path = "./tftp/firmware"
 config_path = "./tftp/config"
 switch = "192.168.1.2"
-airmax = "192.168.1.20"
+ap = "192.168.1.20"
 router = "192.168.1.1"
 creds = "ubnt"
 
@@ -35,7 +36,7 @@ print("by Bradley Herrin and Josh Moore".center(45))
 print("---------------------------------------------".center(45))
 
 # Edgeswitch ping check
-if subprocess.call(ping + switch + ping_match, shell = True) == 0:
+if switch and subprocess.call(ping + switch + ping_match, shell = True) == 0:
     # Check default access type
     a_type = pexpect.run("telnet " + switch)
     if "Connection refused" in a_type:
@@ -78,20 +79,54 @@ if subprocess.call(ping + switch + ping_match, shell = True) == 0:
         edgeswitch.configuring_um()
         edgeswitch.config(linux_pc, model)
         edgeswitch.configured_successfully_um()
+elif not switch:
+    print "Switch provisioning disabled, continuing to next step..."
 else:
     # No devices found
     print('No switch devices found.')
 
 # Edgerouter ping check
-if subprocess.call(ping + router + ping_match, shell = True) == 0:
+if router and subprocess.call(ping + router + ping_match, shell = True) == 0:
     print "Found router"
+elif not router:
+    print "Router provisioning disabled, continuing to next step..."
 else:
     # No devices found
     print('No router devices found.')
 
 # Airmax ping check
-if subprocess.call(ping + airmax + ping_match, shell = True) == 0:
-    print "Found airmax"
+if ap and subprocess.call(ping + ap + ping_match, shell = True) == 0:
+    # Login to airmax
+    airmax.found_login_um()
+    airmax.default_login(creds, ap)
+    # Check airmax model is supported
+    if airmax.airmax_model() == 26:
+        # Error not supported
+        airmax.model_not_found_um()
+    else:
+        # Grab airmax model
+        model = airmax.airmax_model()
+        airmax.airmax_model_um(model)
+        firmware = airmax.latest_airmax_firmware(firmware_path, model)
+        # Check latest firmware for model
+        airmax.latest_airmax_firmware_um(firmware)
+        airmax.firmware_check()
+        # Check if latest firmware already on the switch
+        if firmware in airmax.connection.before:
+            airmax.no_upgrade_um()
+            # Configure airmax based on model
+            airmax.configuring_um()
+            airmax.config(ap, model)
+            airmax.configured_successfully_um()
+        else:
+            # Firmware not on the airmax, upgrade
+            airmax.updating_firmware_um()
+            airmax.update_firmware(ap, creds, firmware, firmware_path)
+            edgeswitch.active_um()
+            edgeswitch.set_active()
+elif not ap:
+    print "Airmax provisioning disabled, continuing to next step..."
 else:
     # No devices found
     print('No AirMax devices found.')
+print "Script execution complete."

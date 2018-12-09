@@ -144,8 +144,6 @@ def set_active():
 
 
 def latest_switch_firmware(hardcoded_switch_version, firmware_path, model):
-    connection.sendline("show version")
-    connection.expect("Serial")
     firmware = switch_models.get(model, {}).get('firmware')
     if firmware_path and not hardcoded_switch_version:
         firmware_file = pexpect.run("find " + firmware_path + " -name '*" + firmware + "*' -printf '%f\n'")
