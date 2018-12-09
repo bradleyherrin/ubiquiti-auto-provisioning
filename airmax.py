@@ -102,8 +102,8 @@ def default_login(creds, ap):
 
 
 def firmware_check():
-    connection.sendline("show bootvar")
-    connection.expect("Current")
+    connection.sendline("cat /etc/version")
+    connection.expect("#")
 
 
 def update_firmware(ap, creds, firmware, firmware_path):
