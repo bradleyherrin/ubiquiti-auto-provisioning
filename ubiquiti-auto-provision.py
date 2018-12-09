@@ -16,7 +16,7 @@ import edgerouter
 
 # Variables
 ping = "ping -c 5 "
-ping_match = " | grep -c 'bytes from' | grep 5 >& /dev/null"
+ping_match = " | grep -c 'bytes from' | grep 5 >/dev/null"
 linux_pc = "192.168.1.254"
 # Set the below variable only if you want to override the switch firmware version learned in the firmware_path
 hardcoded_switch_version = ""
