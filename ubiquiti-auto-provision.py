@@ -69,7 +69,7 @@ if switch and subprocess.call(ping + switch + ping_match, shell = True) == 0:
         else:
             # Firmware not on the switch, upgrade
             edgeswitch.updating_firmware_um()
-            edgeswitch.update_firmware(linux_pc, firmware)
+            edgeswitch.update_firmware(linux_pc)
             if "success" in edgeswitch.connection.before:
                 edgeswitch.active_um()
                 edgeswitch.set_active()
