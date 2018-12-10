@@ -93,10 +93,8 @@ def updating_firmware_um():
 def default_login(creds, ap):
     global connection
     pexpect.run("ssh-keygen -R " + ap)
-    connection = pexpect.spawn("ssh " + creds + "@" + ap)
-    print connection.after
+    connection = pexpect.spawn("ssh " + creds + "@" + ap + " > /dev/null")
     connection.expect("(yes/no)? ")
-    print connection.before
     connection.sendline("yes")
     connection.expect("password: ")
     connection.sendline(creds)
