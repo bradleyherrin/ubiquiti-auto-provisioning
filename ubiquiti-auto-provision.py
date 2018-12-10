@@ -17,7 +17,7 @@ import airmax
 
 # Variables
 ping = "ping -c 5 "
-ping_match = " | grep -c 'ttl=' | grep 5 >/dev/null"
+ping_match = " | grep -c 'time=' | grep 5 >/dev/null"
 linux_pc = "192.168.1.254"
 # Set the below variable only if you want to override the switch firmware version learned in the firmware_path
 firmware_path = "./tftp/firmware/"
