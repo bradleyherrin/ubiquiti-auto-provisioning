@@ -94,7 +94,7 @@ def default_login(creds, ap):
     global connection
     pexpect.run("ssh-keygen -R " + ap + " >& /dev/null")
     connection = pexpect.spawn("ssh " + creds + "@" + ap)
-    connection.expect("(yes/no)?")
+    connection.expect("(yes/no)? ")
     connection.sendline("yes")
     connection.expect("password: ")
     connection.sendline(creds)
