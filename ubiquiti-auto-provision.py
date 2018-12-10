@@ -19,7 +19,8 @@ import airmax
 ping = "ping -c 5 "
 ping_match = " | grep -c 'time=' | grep 5 >/dev/null"
 linux_pc = "192.168.1.254"
-# Set the below variable only if you want to override the switch firmware version learned in the firmware_path
+# Set the below variable only if you want to override the
+# switch firmware version learned in the firmware_path
 firmware_path = "./tftp/firmware/"
 config_path = "./tftp/config/"
 switch = "192.168.1.2"
@@ -35,7 +36,7 @@ print("by Bradley Herrin and Josh Moore".center(45))
 print("---------------------------------------------".center(45))
 
 # Edgeswitch ping check
-if switch and subprocess.call(ping + switch + ping_match, shell = True) == 0:
+if switch and subprocess.call(ping + switch + ping_match, shell=True) == 0:
     # Check default access type
     a_type = pexpect.run("telnet " + switch)
     if "Connection refused" in a_type:
@@ -85,7 +86,7 @@ else:
     print('No switch devices found.')
 
 # Edgerouter ping check
-if router and subprocess.call(ping + router + ping_match, shell = True) == 0:
+if router and subprocess.call(ping + router + ping_match, shell=True) == 0:
     print "Found router"
 elif not router:
     print "Router provisioning disabled, continuing to next step..."
@@ -94,7 +95,7 @@ else:
     print('No router devices found.')
 
 # Airmax ping check
-if ap and subprocess.call(ping + ap + ping_match, shell = True) == 0:
+if ap and subprocess.call(ping + ap + ping_match, shell=True) == 0:
     # Login to airmax
     airmax.found_login_um()
     airmax.default_login(creds, ap)

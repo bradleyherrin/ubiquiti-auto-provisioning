@@ -104,7 +104,7 @@ def updating_firmware_um():
 
 def default_login(telnet_connection, creds, switch):
     global connection
-    if telnet_connection == True:
+    if telnet_connection is True:
         connection = pexpect.spawn("telnet " + switch)
         connection.expect("User:")
         connection.sendline(creds)
@@ -112,10 +112,14 @@ def default_login(telnet_connection, creds, switch):
         connection.sendline(creds)
         connection.expect(">")
         connection.sendline("enable")
-        connection.expect("Password:")
-        connection.sendline(creds)
-        connection.expect("#")
-    elif telnet_connection == False:
+        connection.expect(["word:", "#"])
+        if "Pass" in connection.before:
+            connection.sendline(creds)
+            connection.expect("#")
+        else:
+            connection.sendline(" ")
+            connection.expect("#")
+    elif telnet_connection is False:
         pexpect.run("ssh-keygen -R " + switch + " >/dev/null")
         connection = pexpect.spawn("ssh " + creds + "@" + switch)
         connection.expect("(yes/no)? ")
@@ -144,6 +148,7 @@ def update_firmware(linux_pc):
 
 def set_active():
     connection.sendline("boot system backup")
+    time.sleep(30)
     connection.expect("#")
 
 
