@@ -111,6 +111,7 @@ def update_firmware(ap, creds, firmware, firmware_path):
     firmware_connection = pexpect.spawn("scp -o StrictHostKeyChecking=no " + firmware_path + firmware + " " + creds + "@" + ap + ":/tmp/fwupdate.bin")
     firmware_connection.expect("password: ")
     firmware_connection.sendline(creds)
+    time.sleep(240)
 
 
 def set_active():
