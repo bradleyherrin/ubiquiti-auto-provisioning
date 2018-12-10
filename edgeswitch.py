@@ -116,7 +116,7 @@ def default_login(telnet_connection, creds, switch):
         connection.sendline(creds)
         connection.expect("#")
     elif telnet_connection == False:
-        pexpect.run("ssh-keygen -R " + switch + " > /dev/null")
+        pexpect.run("ssh-keygen -R " + switch + " >/dev/null")
         connection = pexpect.spawn("ssh " + creds + "@" + switch)
         connection.expect("(yes/no)? ")
         connection.sendline("yes")
