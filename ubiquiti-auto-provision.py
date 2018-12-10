@@ -21,8 +21,8 @@ ping_match = " | grep -c 'ttl=' | grep 5 >/dev/null"
 linux_pc = "192.168.1.254"
 # Set the below variable only if you want to override the switch firmware version learned in the firmware_path
 hardcoded_switch_version = ""
-firmware_path = "./tftp/firmware"
-config_path = "./tftp/config"
+firmware_path = "./tftp/firmware/"
+config_path = "./tftp/config/"
 switch = "192.168.1.2"
 ap = "192.168.1.20"
 router = "192.168.1.1"
@@ -116,7 +116,7 @@ if ap and subprocess.call(ping + ap + ping_match, shell = True) == 0:
             airmax.no_upgrade_um()
             # Configure airmax based on model
             airmax.configuring_um()
-            airmax.config(ap, model)
+            airmax.config(ap, model, config_path)
             airmax.configured_successfully_um()
         else:
             # Firmware not on the airmax, upgrade

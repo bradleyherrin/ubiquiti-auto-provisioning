@@ -135,11 +135,13 @@ def airmax_model():
     return 26
 
 
-def config(ap, model):
-    connection.sendline("copy tftp://" + ap + "/config/" + model + ".cfg nvram:startup-config")
-    connection.expect("(y/n)")
-    connection.sendline("y")
-    connection.expect("successfully.")
-    connection.sendline("reload")
-    connection.expect("(y/n)")
-    connection.sendline("y")
+def config(ap, model, config_path):
+    global firmware_connection
+    firmware_connection = pexpect.spawn("scp -o StrictHostKeyChecking=no " + config_path + model + ".cfg " + creds + "@" + ap + ":/tmp/system.cfg")
+    firmware_connection.expect("password: ")
+    firmware_connection.sendline(creds)
+    time.sleep(60)
+    connection.sendline("cfgmtd -f /tmp/system.cfg -w")
+    connection.expect("#")
+    connection.sendline("/usr/etc/rc.d/rc.softrestart save")
+    connection.expect("#")
