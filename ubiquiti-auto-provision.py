@@ -20,7 +20,6 @@ ping = "ping -c 5 "
 ping_match = " | grep -c 'ttl=' | grep 5 >/dev/null"
 linux_pc = "192.168.1.254"
 # Set the below variable only if you want to override the switch firmware version learned in the firmware_path
-hardcoded_switch_version = ""
 firmware_path = "./tftp/firmware/"
 config_path = "./tftp/config/"
 switch = "192.168.1.2"
@@ -56,7 +55,7 @@ if switch and subprocess.call(ping + switch + ping_match, shell = True) == 0:
         # Grab switch model
         model = edgeswitch.switch_model()
         edgeswitch.switch_model_um(model)
-        firmware = edgeswitch.latest_switch_firmware(hardcoded_switch_version, firmware_path, model)
+        firmware = edgeswitch.latest_switch_firmware(firmware_path, model)
         # Check latest firmware for model
         edgeswitch.latest_switch_firmware_um(firmware)
         edgeswitch.firmware_check()

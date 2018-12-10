@@ -147,16 +147,13 @@ def set_active():
     connection.expect("#")
 
 
-def latest_switch_firmware(hardcoded_switch_version, firmware_path, model):
+def latest_switch_firmware(firmware_path, model):
     global firmware_file
     firmware = switch_models.get(model, {}).get('firmware')
-    if firmware_path and not hardcoded_switch_version:
-        firmware_file = pexpect.run("find " + firmware_path + " -name '*" + firmware + "*' -printf '%f'")
-        split_version = firmware_file.rsplit(firmware + ".v")
-        switch_version = split_version[1].split('.stk')
-        return switch_version[0]
-    else:
-        return hardcoded_switch_version
+    firmware_file = pexpect.run("find " + firmware_path + " -name '*" + firmware + "*' -printf '%f'")
+    split_version = firmware_file.rsplit(firmware + ".v")
+    switch_version = split_version[1].split('.stk')
+    return switch_version[0]
 
 
 def switch_model():
