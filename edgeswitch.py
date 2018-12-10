@@ -9,6 +9,7 @@
 import pexpect
 import time
 connection = ""
+firmware_file = ""
 
 # Device models dictionary
 switch_models = {
@@ -134,7 +135,7 @@ def firmware_check():
 
 
 def update_firmware(linux_pc, firmware):
-    connection.sendline("copy tftp://" + linux_pc + "/firmware/" + firmware + " backup")
+    connection.sendline("copy tftp://" + linux_pc + "/firmware/" + firmware_file + " backup")
     connection.expect("(y/n)")
     connection.sendline("y")
     time.sleep(240)
@@ -147,6 +148,7 @@ def set_active():
 
 
 def latest_switch_firmware(hardcoded_switch_version, firmware_path, model):
+    global firmware_file
     firmware = switch_models.get(model, {}).get('firmware')
     if firmware_path and not hardcoded_switch_version:
         firmware_file = pexpect.run("find " + firmware_path + " -name '*" + firmware + "*' -printf '%f\n'")
