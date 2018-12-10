@@ -136,8 +136,7 @@ def firmware_check():
 
 def update_firmware(linux_pc):
     connection.sendline("copy tftp://" + linux_pc + "/firmware/" + firmware_file + " backup")
-    print connection.after
-    connection.expect("start? ")
+    connection.expect("transfer")
     connection.sendline("y")
     time.sleep(240)
     connection.expect("lly.")
