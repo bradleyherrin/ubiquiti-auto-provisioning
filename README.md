@@ -35,10 +35,7 @@ mkdir [TFTP filepath]/firmware
 ```
 
 #### Configurations
-The filenames should match the dictionaries in edgeswitch.py, edgerouter.py, and airmax.py. The filetype depends on the device.
-* Switch - *.cfg*
-* Router - *under construction*
-* AP - *under construction*
+The filenames should match the dictionaries in edgeswitch.py, edgerouter.py, and airmax.py. The filetype isn't crucial, but to make it easier to find, I would suggest saving all configs as `[filename].cfg`.
 
 #### Firmware
 Firmware should be downloaded directly from https://www.ubnt.com/download/. The filenames should remain completely unchanged. There should be no more than one firmware version per model type. This means "ES-eswh.v1.7.4..." and "ES-eswh.v1.8.1..." both cannot be located in the same folder
