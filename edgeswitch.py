@@ -134,6 +134,7 @@ def default_login(telnet_connection, creds, switch):
 
 
 def firmware_check():
+    connection.expect("#")
     connection.sendline("show bootvar")
     connection.expect("#")
 
