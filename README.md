@@ -118,14 +118,12 @@ The following is a list of compatible devices.
 * ES-48-LITE
 * ES-48-500W
 * ES-48-750W
-
-The following is a list of incompatible devices. As these devices become compatible they will be moved to the list above.
-* ES-5XP
-* ES-8XP
+* ES-16-XG
 * ES-10X
 * ES-10XP
+* ES-5XP
+* ES-8XP
 * ES-16XP
-* ES-16-XG
 
 ### Airmax
 Under construction

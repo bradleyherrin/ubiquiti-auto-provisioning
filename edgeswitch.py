@@ -13,7 +13,7 @@ firmware_file = ""
 
 # Device models dictionary
 switch_models = {
-    'ES-8': {
+    'ES-8-150W': {
         'firmware': 'ES-eswh'
     },
     'ES-12': {
@@ -33,6 +33,18 @@ switch_models = {
     },
     'EP-S16': {
         'firmware': 'ES-eswh'
+    },
+    'ES-10': {
+        'firmware': 'ESX'
+    },
+    'ES-5XP': {
+        'firmware': 'SW'
+    },
+    'ES-8XP': {
+        'firmware': 'SW'
+    },
+    'ES-16XP': {
+        'firmware': 'SW'
     }
 }
 
