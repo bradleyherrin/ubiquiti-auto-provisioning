@@ -38,6 +38,7 @@ print("---------------------------------------------".center(45))
 # Edgeswitch ping check
 if switch and subprocess.call(ping + switch + ping_match, shell=True) == 0:
     # Check default access type
+    pexpect.run("ssh-keygen -R " + switch)
     a_type = pexpect.run("telnet " + switch)
     if "Connection refused" in a_type:
         telnet_connection = False
