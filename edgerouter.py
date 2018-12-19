@@ -172,7 +172,7 @@ def switch_model():
 def config(linux_pc, model):
     connection.sendline("configure")
     connection.expect("#")
-    connection.sendline("load tftp://" + linux_pc + "/config/" + model + ".boot")
+    connection.sendline("load tftp://"+linux_pc+"/config/"+model+".boot")
     connection.expect("(y/n)")
     connection.sendline("y")
     connection.expect("successfully.")

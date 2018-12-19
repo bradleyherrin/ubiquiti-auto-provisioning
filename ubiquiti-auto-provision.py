@@ -1,4 +1,4 @@
-airmax#!/usr/bin/env python
+#!/usr/bin/env python
 
 # ubiquiti-auto-provision.py
 # This project is authored by Bradley Herrin and Josh Moore.
