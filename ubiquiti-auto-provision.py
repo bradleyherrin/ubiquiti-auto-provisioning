@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+airmax#!/usr/bin/env python
 
 # ubiquiti-auto-provision.py
 # This project is authored by Bradley Herrin and Josh Moore.
@@ -87,7 +87,40 @@ else:
 
 # Edgerouter ping check
 if router and subprocess.call(ping + router + ping_match, shell=True) == 0:
-    print "Found router"
+    # Login to router
+    edgerouter.found_login_um(login_type)
+    edgerouter.default_login(creds, router)
+    # Check router model is supported
+    if edgerouter.router_model() == 26:
+        # Error not supported
+        edgerouter.model_not_found_um()
+    else:
+        # Grab router model
+        model = edgerouter.router_model()
+        edgerouter.router_model_um(model)
+        firmware = edgerouter.latest_router_firmware(firmware_path, model)
+        # Check latest firmware for model
+        edgerouter.latest_router_firmware_um(firmware)
+        edgerouter.firmware_check()
+        # Check if latest firmware already on the router
+        if "active  *" + firmware in edgerouter.connection.before:
+            edgerouter.no_upgrade_um()
+        elif "backup   " + firmware in edgerouter.connection.before:
+            edgerouter.active_um()
+            edgerouter.set_active()
+        else:
+            # Firmware not on the router, upgrade
+            edgerouter.updating_firmware_um()
+            edgerouter.update_firmware(linux_pc)
+            if "success" in edgerouter.connection.before:
+                edgerouter.active_um()
+                edgerouter.set_active()
+            else:
+                edgerouter.upgrade_failed_um()
+        # Configure router based on model
+        edgerouter.configuring_um()
+        edgerouter.config(linux_pc, model)
+        edgerouter.configured_successfully_um()
 elif not router:
     print "Router provisioning disabled, continuing to next step..."
 else:
@@ -111,7 +144,7 @@ if ap and subprocess.call(ping + ap + ping_match, shell=True) == 0:
         # Check latest firmware for model
         airmax.latest_airmax_firmware_um(firmware)
         airmax.firmware_check()
-        # Check if latest firmware already on the switch
+        # Check if latest firmware already on the AP
         if firmware in airmax.connection.before:
             airmax.no_upgrade_um()
             # Configure airmax based on model
@@ -122,8 +155,8 @@ if ap and subprocess.call(ping + ap + ping_match, shell=True) == 0:
             # Firmware not on the airmax, upgrade
             airmax.updating_firmware_um()
             airmax.update_firmware(ap, creds, firmware, firmware_path)
-            edgeswitch.active_um()
-            edgeswitch.set_active()
+            airmax.active_um()
+            airmax.set_active()
 elif not ap:
     print "Airmax provisioning disabled, continuing to next step..."
 else:
